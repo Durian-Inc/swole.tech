@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './Login';
 import WorkoutList from './WorkoutList';
 import Home from './Home';
+import Profile from './Profile';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class Main extends Component {
@@ -15,8 +16,8 @@ class Main extends Component {
           <Route exact path="/workout" component={WorkoutList} />
           <Route exact path="/workout/:id" component={WorkoutList} />
           <Route exact path="/search" component={WorkoutList} />
-          <Route exact path="/profile" component={Login} />
-          <Route exact path="/profile/:name" component={Login} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile/:name" component={Profile} />
           <Route exact path="/login" component={Login} />
         </Switch>
       </Router>

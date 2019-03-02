@@ -9,14 +9,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import { Link } from 'react-router-dom';
 
 class Navigation extends Component<any, any> {
-  state = {
-    value: 0
-  }
-
   render() {
-    const { value } = this.state
     const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
- 
 
     return (
       <div>
