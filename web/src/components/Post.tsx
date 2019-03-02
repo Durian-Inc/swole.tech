@@ -62,7 +62,8 @@ class Post extends Component<IProps, {}> {
           textAlign: 'left',
           margin: 'auto',
           marginTop: '10px',
-          width: '95%'
+          width: '95%',
+          maxWidth: '500px'
         }}
       >
         <CardHeader
