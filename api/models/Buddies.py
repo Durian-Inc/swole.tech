@@ -4,8 +4,8 @@ from playhouse.postgres_ext import ForeignKeyField
 
 
 class Buddies(BaseModel):
-    first_friend = ForeignKeyField(User, backref='Buddies')
-    second_friend = ForeignKeyField(User, backref='Buddies')
+    myself = ForeignKeyField(User)
+    my_friend = ForeignKeyField(User)
 
     class Meta:
-        index = ('user', 'user')
+        index = ((('myself', 'my_friend'), True))
