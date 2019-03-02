@@ -4,6 +4,16 @@ from datetime import datetime
 
 
 def populate_db():
+    comments = [
+        {
+            'name': 'Innocent Niyibizi',
+            'text': 'This is some really cool rips brooo'
+        },
+        {
+            'name': 'Katie Pitz',
+            'text': 'You need more pump, bro'
+        }
+    ]
     try:
         # Creating a few users
         first_user = User.create(name='Bob', photo='https://bit.ly/2ILwmyk')
@@ -17,13 +27,17 @@ def populate_db():
 
         # Creating workouts and one live workout!
         first_workkout = Workout.create(name='Swole!', end_time=datetime.now(),
-                                        creator=first_user.name)
+                                        creator=first_user.name, category='Arm')
         LiveWorkouts.create(user=first_user, workout=first_workkout)
-
+        next_workkout = Workout.create(name='Swole!!', end_time=datetime.now(),
+                                       creator=second_user.name, category='Arm',
+                                       end_date=datetime.now())
         # Creating a single post
-        post = Post.create(photo='https://bit.ly/2NETYmP',
-                           caption='I\'m so SWOLE!')
-        Posted.create(user=first_user, post=post)
+        post = Post.create(photo='https://bit.ly/2INxktU',
+                           caption='I am way toooo Swole!!',
+                           original_workout=next_workkout,
+                           comments=comments)
+        Posted.create(user=second_user, post=post)
 
         # Creating a team!!
         swole_team = Team.create(name='Swole Team 6')

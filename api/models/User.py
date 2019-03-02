@@ -1,10 +1,9 @@
 """All registered users are input into this model"""
 
 from models import BaseModel
-from playhouse.postgres_ext import CharField, PrimaryKeyField
+from playhouse.postgres_ext import CharField
 
 
 class User(BaseModel):
-    id = PrimaryKeyField()
-    name = CharField()
+    name = CharField(unique=True)
     photo = CharField(null=True)
