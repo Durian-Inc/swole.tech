@@ -3,6 +3,18 @@ import Modal from 'react-modal';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import FolderIcon from '@material-ui/icons/Folder';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from '@material-ui/core/TextField';
+
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -29,6 +41,16 @@ const styles = (theme: Theme) =>
       height: 40,
       borderTop: '1px lightgray solid',
       borderBottom: '1px lightgray solid',
+    },
+    textField: {
+      margin: 0,
+      minWidth: 100,
+      maxWidth: 100
+    },
+    itemText: {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
     }
   })
 
@@ -37,7 +59,7 @@ class WorkoutList extends Component<any, any> {
     super(props)
     this.state = {
       listName: "",
-      items: this.props.items || ["bees", "oranges"],
+      items: [],
       exercises: [],
       showModal: false,
       isLoaded: false,
@@ -78,6 +100,15 @@ class WorkoutList extends Component<any, any> {
     this.handleCloseModal();
   }
 
+  remove (item: string) {
+    const { items } = this.state;
+    var index = items.indexOf(item);
+    items.splice(index, 1);
+    this.setState({
+      items: items
+    });
+  }
+
   handleOpenModal () {
     this.setState({ showModal: true });
   }
@@ -97,6 +128,16 @@ class WorkoutList extends Component<any, any> {
 
   handleChange = (event: any) => {
     this.setState({listName: event.target.value});
+  }
+
+  update = (item: any, event: any) => {
+    const { items } = this.state;
+    var index = items.indexOf(item);
+    items[index].count = event.target.value;
+
+    this.setState({
+      items: items
+    })
   }
 
   render() {
@@ -124,13 +165,14 @@ class WorkoutList extends Component<any, any> {
               >
                 Cancel
               </button>
+
               <ul className={classes.list}>
                 { this.state.exercises ? (
                   this.state.exercises.map((item: any, index: number) => {
                     if (item.name.length > 0)
                       return (
                         <li className={classes.listItem} key={index}>
-                          <button onClick={() => this.add(item.name)}>
+                          <button onClick={() => this.add(item)}>
                             {item.name}
                           </button>
                         </li>
@@ -140,12 +182,34 @@ class WorkoutList extends Component<any, any> {
                 }
               </ul>
             </Modal>
-          <ul className={classes.list}>
-            {
-              this.state.items.map((item: string, index: number) => 
-                <li className={classes.listItem} key={index}>{item}</li>)
-            }
-          </ul>
+
+          <List dense={false}>
+            {this.state.items.map((item: any) =>
+              <ListItem>
+                <TextField
+                  id="outlined-bare"
+                  className={classes.textField}
+                  onChange={(event: any) => this.update(item, event)}
+                  placeholder="1 rep"
+                  margin="dense"
+                  variant="outlined"
+                />
+                <ListItemText
+                  primary={item.name}
+                  className={classes.itemText}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={() => this.remove(item)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>,
+            )}
+          </List>
+
           <button className={classes.createButton}
             onClick={this.makeWorkout}>Create</button>
         </div>
