@@ -10,6 +10,7 @@ class Main extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/teams" component={Home} />
           <Route exact path="/teams/:name" component={Home} />
           <Route exact path="/workout" component={WorkoutList} />
           <Route exact path="/workout/:id" component={WorkoutList} />
