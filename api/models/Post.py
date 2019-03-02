@@ -10,4 +10,4 @@ class Post(BaseModel):
     comments = JSONField(default=[])
     photo = CharField(null=True)
     caption = CharField(null=True)
-    date = DateTimeField(default=datetime.now)
+    date = DateTimeField(default=datetime.now())

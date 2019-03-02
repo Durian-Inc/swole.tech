@@ -4,8 +4,8 @@ from playhouse.postgres_ext import ForeignKeyField
 
 
 class Posted(BaseModel):
-    user = ForeignKeyField(User, backref='Posted')
-    post = ForeignKeyField(Post, backref='Posted')
+    user = ForeignKeyField(User)
+    post = ForeignKeyField(Post)
 
     class Meta:
         index = ('user', 'post')
