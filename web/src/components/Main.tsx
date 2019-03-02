@@ -14,6 +14,24 @@ class Main extends Component {
     return (
       <div>
         <Feed />
+        <BottomNavigation
+          style={{
+            width: '100%',
+            position: 'fixed',
+            bottom: 0,
+            borderTop: '1px solid lightgrey',
+            webkitBoxShadow: '0px 0px 2px 0px rgba(242,242,242,1)',
+            mozBoxShadow: '0px 0px 2px 0px rgba(242,242,242,1)',
+            boxShadow: '0px 0px 2px 0px rgba(242,242,242,1)'
+          }}
+          showLabels
+        >
+          <BottomNavigationAction style={{marginRight: '-10px'}} label="Feed" icon={<HomeIcon />} />
+          <BottomNavigationAction style={{marginRight: '-10px'}} label="Teams" icon={<GroupIcon />} />
+          <BottomNavigationAction label="Create" icon={<AddBoxIcon />} />
+          <BottomNavigationAction style={{marginLeft: '-10px'}} label="Search" icon={<SearchIcon />} />
+          <BottomNavigationAction style={{marginLeft: '-10px'}} label="Profile" icon={<PersonIcon />} />
+        </BottomNavigation>
       </div>
     );
   }
