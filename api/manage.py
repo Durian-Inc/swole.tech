@@ -6,7 +6,6 @@ from serve import db
 from models import tables
 from populate import populate_db
 
-
 def create_all():
     """Initialize the tables for each model defined in the app"""
     with db:
