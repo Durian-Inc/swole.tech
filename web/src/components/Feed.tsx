@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Post from './Post';
+import Stories from './Stories';
 
 class Feed extends Component {
   render() {
     return (
+      <div>
+      <Stories stories={[{name: "Tom", category:"legs"}, {name: "Steve", category:"arms"}]} />
       <div style={{marginBottom: '65px'}}>
         <Post
           avatar={require('../static/workout.png')}
@@ -45,6 +48,7 @@ class Feed extends Component {
           workoutName='Upper Body'
           workoutTime='1:20:47'
         />
+      </div>
       </div>
     );
   }

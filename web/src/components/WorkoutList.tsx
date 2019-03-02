@@ -1,11 +1,41 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal';
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+
+const styles = (theme: Theme) =>
+  createStyles({
+    container: {
+      padding: 15
+    },
+    modalButton: {
+      height: 40,
+      width: '100%',
+      background: 'skyblue'
+    },
+    createButton: {
+      height: 40,
+      width: '100%',
+      background: 'skyblue'
+    },
+    list: {
+      listStyleType: 'none',
+      margin: 0,
+      padding: 0
+    },
+    listItem: {
+      color: 'green',
+      height: 40,
+      borderTop: '1px lightgray solid',
+      borderBottom: '1px lightgray solid',
+    }
+  })
 
 class WorkoutList extends Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      items: ["bees", "trees"],
+      listName: "",
+      items: this.props.items || ["bees", "oranges"],
       exercises: [],
       showModal: false,
       isLoaded: false,
@@ -53,33 +83,64 @@ class WorkoutList extends Component<any, any> {
     this.setState({ showModal: false });
   }
 
+  makeWorkout = () => {
+    var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    const { items, listName } = this.state;
+    console.log(name, listName, items);
+  }
+
+  handleChange = (event: any) => {
+    this.setState({listName: event.target.value});
+  }
+
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <button onClick={this.handleOpenModal}>Trigger Modal</button>
+      <div className={classes.container}>
+        <input type="text" value={this.state.listName} onChange={this.handleChange} />
+        <button
+          className={classes.modalButton}
+          onClick={this.handleOpenModal}
+        >
+          + Add Exercise
+        </button>
           <Modal 
              isOpen={this.state.showModal}
-             contentLabel="Minimal Modal Example"
+             contentLabel="Select Exercise"
           >
-            <ul>
+            <button
+              className={classes.modalButton}
+              onClick={this.handleCloseModal}
+            >
+              Cancel
+            </button>
+            <ul className={classes.list}>
               { this.state.exercises ? (
                 this.state.exercises.map((item: any, index: number) => {
                   if (item.name.length > 0)
-                    return (<li key={index}><button onClick={() => this.add(item.name)}>{item.name}</button></li>)
+                    return (
+                      <li className={classes.listItem} key={index}>
+                        <button onClick={() => this.add(item.name)}>
+                          {item.name}
+                        </button>
+                      </li>
+                    )
                 })
               ) : ( <div>nothing</div>)
               }
             </ul>
-            <button onClick={this.handleCloseModal}>Close Modal</button>
           </Modal>
-        <ul>
+        <ul className={classes.list}>
           {
-            this.state.items.map((item: string, index: number) => <li key={index}>{item}</li>)
+            this.state.items.map((item: string, index: number) => 
+              <li className={classes.listItem} key={index}>{item}</li>)
           }
         </ul>
+        <button className={classes.createButton}
+          onClick={this.makeWorkout}>Create</button>
       </div>
     );
   }
 }
 
-export default WorkoutList
+export default withStyles(styles)(WorkoutList)
