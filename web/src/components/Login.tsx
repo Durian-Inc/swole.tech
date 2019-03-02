@@ -5,12 +5,23 @@ import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/s
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
+    wrapper: {
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
     container: {
       display: 'flex',
       flexWrap: 'wrap',
+      boxShadow: '0 0 10px rgba(0,0,0,0.4)',
+      width: 300,
+      height: 450,
+      padding: 80
     },
     textField: {
       marginLeft: theme.spacing.unit,
@@ -24,6 +35,8 @@ const styles = (theme: Theme) =>
     },
     button: {
       margin: theme.spacing.unit,
+      width: '100%',
+      height: 50
     },
     input: {
       display: 'none',
@@ -34,6 +47,7 @@ export interface Props extends WithStyles<typeof styles> {}
 
 interface State {
   name: string,
+  redirect: boolean
 }
 
 class OutlinedTextFields extends React.Component<Props, State> {
@@ -41,49 +55,65 @@ class OutlinedTextFields extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      name: 'Cat in the Hat',
+      name: '',
+      redirect: false
     };
   }
 
-  handleChange = (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  updateName = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [name]: event.target.value,
-    } as Pick<State, keyof State>);
+      name: event.target.value,
+    });
   };
   
   login = () => {
     document.cookie = `username=`+this.state.name;
     var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     window.alert(cookieValue);
+    this.setState({
+      redirect: true
+    });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to="/" />;
+    }
     const { classes } = this.props;
 
     return (
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="outlined-name"
-          label="Username"
-          className={classes.textField}
-          value={this.state.name}
-          onChange={this.handleChange('name')}
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
-          margin="normal"
-          variant="outlined"
-        />
-        <Button onClick={this.login} variant="contained" color="primary" className={classes.button}>
-          Log In
-        </Button>
-      </form>
+      <div className={classes.wrapper}>
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            id="outlined-name"
+            label="Username"
+            className={classes.textField}
+            fullWidth={true}
+            placeholder="CarpeDiem"
+            onChange={this.updateName}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            className={classes.textField}
+            fullWidth={true}
+            type="password"
+            autoComplete="current-password"
+            margin="normal"
+            variant="outlined"
+          />
+          <Button
+            onClick={this.login}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Log In
+          </Button>
+        </form>
+      </div>
     );
   }
 }
