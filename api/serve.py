@@ -6,7 +6,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
-load_dotenv(dotenv_path='../.env')
+load_dotenv(dotenv_path='./.env')
 DATABASE_HOST = os.getenv("DATABASE-HOST")
 DATABASE_PORT = os.getenv("DATABASE-PORT")
 DATABASE_NAME = os.getenv("DATABASE-NAME")

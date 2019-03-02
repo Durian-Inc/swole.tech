@@ -4,8 +4,8 @@ from playhouse.postgres_ext import ForeignKeyField
 
 
 class LiveWorkouts(BaseModel):
-    user = ForeignKeyField(User, backref='LiveWorkouts')
-    workout = ForeignKeyField(Workout, backref='LiveWorkouts')
+    user = ForeignKeyField(User)
+    workout = ForeignKeyField(Workout)
 
     class Meta:
         index = ('usesr', 'workout')
