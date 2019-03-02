@@ -14,6 +14,22 @@ def populate_db():
             'text': 'You need more pump, bro'
         }
     ]
+    exercises = [
+        {
+            'name': 'Squat',
+            'weight': 130,
+            'reps': 10
+        },
+        {
+            'name': 'Bench Press',
+            'weight': 130,
+            'reps': 10
+        },
+        {
+            'name': 'Run',
+            'distance': 1
+        }
+    ]
     try:
         # Creating a few users
         first_user = User.create(name='Bob', photo='https://bit.ly/2ILwmyk')
@@ -27,11 +43,13 @@ def populate_db():
 
         # Creating workouts and one live workout!
         first_workkout = Workout.create(name='Swole!', end_time=datetime.now(),
-                                        creator=first_user.name, category='Arm')
+                                        creator=first_user.name, category='Arm',
+                                        exercises=exercises)
         LiveWorkouts.create(user=first_user, workout=first_workkout)
         next_workkout = Workout.create(name='Swole!!', end_time=datetime.now(),
                                        creator=second_user.name, category='Arm',
-                                       end_date=datetime.now())
+                                       end_date=datetime.now(),
+                                       exercises=exercises)
         # Creating a single post
         post = Post.create(photo='https://bit.ly/2INxktU',
                            caption='I am way toooo Swole!!',
