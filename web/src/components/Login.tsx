@@ -68,8 +68,7 @@ class OutlinedTextFields extends React.Component<Props, State> {
   
   login = () => {
     document.cookie = `username=`+this.state.name;
-    var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    window.alert(cookieValue);
+    // var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     this.setState({
       redirect: true
     });
