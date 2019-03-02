@@ -3,7 +3,7 @@ from playhouse.postgres_ext import Model
 
 from serve import db
 
+
 class BaseModel(Model):
     class Meta:
         database = db
-

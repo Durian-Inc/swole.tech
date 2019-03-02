@@ -1,7 +1,6 @@
 """Group of Users"""
-from datetime import datetime
 
-from app.models import BaseModel
+from models import BaseModel, User
 from playhouse.postgres_ext import CharField, JSONField, PrimaryKeyField, ForeignKeyField
 
 

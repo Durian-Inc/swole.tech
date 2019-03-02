@@ -1,7 +1,6 @@
 """All registered users are input into this model"""
-from datetime import datetime
 
-from app.models import BaseModel
+from models import BaseModel, Workout
 from playhouse.postgres_ext import CharField, PrimaryKeyField, JSONField, ForeignKeyField
 
 
