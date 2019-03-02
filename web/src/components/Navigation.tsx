@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 
 class Navigation extends Component<any, any> {
   render() {
-    const { value } = this.state
     const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
     return (
