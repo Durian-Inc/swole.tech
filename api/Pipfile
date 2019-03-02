@@ -1,0 +1,19 @@
+[Source]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+
+[packages]
+flask = "*"
+flask-cors= "*"
+flask-peewee = "*"
+peewee = "*"
+python-dotenv = "*"
+wtf-peewee = "*"
+psycopg2 = "*"
+
+[requires]
+python_version = "3.7"
