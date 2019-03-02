@@ -5,9 +5,9 @@ from playhouse.postgres_ext import ForeignKeyField, BooleanField
 
 
 class TeamMembers(BaseModel):
-    member = ForeignKeyField(User, backref='TeamMembers')
-    team = ForeignKeyField(Team, backref='TeamMembers')
-    is_manager = BooleanField()
+    member = ForeignKeyField(User)
+    team = ForeignKeyField(Team)
+    is_manager = BooleanField(default=False)
 
     class Meta:
         index = ('user', 'team', 'manages')

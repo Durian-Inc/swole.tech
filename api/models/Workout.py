@@ -7,6 +7,6 @@ from playhouse.postgres_ext import CharField, PrimaryKeyField, DateTimeField
 class Workout(BaseModel):
     id = PrimaryKeyField()
     name = CharField()
-    start_time = DateTimeField(default=datetime.now)
+    start_time = DateTimeField(default=datetime.now())
     end_time = DateTimeField()
     creator = CharField()
