@@ -27,43 +27,44 @@ class Navigation extends Component<any, any> {
             borderTop: '1px solid lightgrey',
             WebkitBoxShadow: '0px 0px 2px 0px rgba(242,242,242,1)',
             MozBoxShadow: '0px 0px 2px 0px rgba(242,242,242,1)',
-            boxShadow: '0px 0px 2px 0px rgba(242,242,242,1)'
+            boxShadow: '0px 0px 2px 0px rgba(242,242,242,1)',
+            textDecoration: 'none'
           }}
         >
-          <Link to='/'>
+          <Link to='/' style={{textDecoration: 'none'}}>
             <BottomNavigationAction
-              style={{marginLeft: '-5px', marginRight: '-5px'}}
+              style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Feed'
               icon={<HomeIcon />}
               showLabel
             />
           </Link>
-          <Link to='/teams'>
+          <Link to='/teams' style={{textDecoration: 'none'}}>
             <BottomNavigationAction
-              style={{marginLeft: '-5px', marginRight: '-5px'}}
+              style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Teams'
               icon={<GroupIcon />}
               showLabel
             />
           </Link>
-          <Link to='/workout'>
+          <Link to='/workout' style={{textDecoration: 'none'}}>
             <BottomNavigationAction
               label='Create'
               icon={<AddBoxIcon />}
               showLabel
             />
           </Link>
-          <Link to='/search'>
+          <Link to='/search' style={{textDecoration: 'none'}}>
             <BottomNavigationAction
-              style={{marginLeft: '-5px', marginRight: '-5px'}}
+              style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Search'
               icon={<SearchIcon />}
               showLabel
             />
           </Link>
-          <Link to='/profile'>
+          <Link to='/profile' style={{textDecoration: 'none'}}>
             <BottomNavigationAction
-              style={{marginLeft: '-5px', marginRight: '-5px'}}
+              style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Profile'
               icon={<PersonIcon />}
               showLabel
