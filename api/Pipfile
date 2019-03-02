@@ -12,6 +12,7 @@ flask-cors= "*"
 flask-peewee = "*"
 peewee = "*"
 python-dotenv = "*"
+wtforms = "*"
 wtf-peewee = "*"
 psycopg2 = "*"
 
