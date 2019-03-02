@@ -9,9 +9,14 @@ class Main extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/workout" component={WorkoutList} />
           <Route exact path="/" component={Home} />
+          <Route exact path="/teams/:name" component={Home} />
+          <Route exact path="/workout" component={WorkoutList} />
+          <Route exact path="/workout/:id" component={WorkoutList} />
+          <Route exact path="/search" component={WorkoutList} />
+          <Route exact path="/profile" component={Login} />
+          <Route exact path="/profile/:name" component={Login} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </Router>
     );

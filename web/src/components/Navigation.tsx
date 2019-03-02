@@ -15,6 +15,8 @@ class Navigation extends Component<any, any> {
 
   render() {
     const { value } = this.state
+    const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+ 
 
     return (
       <div>
@@ -39,7 +41,7 @@ class Navigation extends Component<any, any> {
               showLabel
             />
           </Link>
-          <Link to='/teams' style={{textDecoration: 'none'}}>
+          <Link to={'/teams/' + name} style={{textDecoration: 'none'}}>
             <BottomNavigationAction
               style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Teams'
@@ -62,7 +64,7 @@ class Navigation extends Component<any, any> {
               showLabel
             />
           </Link>
-          <Link to='/profile' style={{textDecoration: 'none'}}>
+          <Link to={'/profile/' + name} style={{textDecoration: 'none'}}>
             <BottomNavigationAction
               style={{marginLeft: '-5px', marginRight: '-5px', textDecoration: 'none'}}
               label='Profile'

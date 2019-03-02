@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal';
 import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
+import Navigation from './Navigation';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -40,6 +42,7 @@ class WorkoutList extends Component<any, any> {
       showModal: false,
       isLoaded: false,
       error: null,
+      redirect: false
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -86,7 +89,10 @@ class WorkoutList extends Component<any, any> {
   makeWorkout = () => {
     var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     const { items, listName } = this.state;
-    console.log(name, listName, items);
+    window.alert(JSON.stringify({name, listName, items}));
+    this.setState({
+      redirect: true
+    });
   }
 
   handleChange = (event: any) => {
@@ -94,51 +100,56 @@ class WorkoutList extends Component<any, any> {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to="/" />;
+    }
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
-        <input type="text" value={this.state.listName} onChange={this.handleChange} />
-        <button
-          className={classes.modalButton}
-          onClick={this.handleOpenModal}
-        >
-          + Add Exercise
-        </button>
-          <Modal 
-             isOpen={this.state.showModal}
-             contentLabel="Select Exercise"
+      <Navigation>
+        <div className={classes.container}>
+          <input type="text" value={this.state.listName} onChange={this.handleChange} />
+          <button
+            className={classes.modalButton}
+            onClick={this.handleOpenModal}
           >
-            <button
-              className={classes.modalButton}
-              onClick={this.handleCloseModal}
+            + Add Exercise
+          </button>
+            <Modal 
+               isOpen={this.state.showModal}
+               contentLabel="Select Exercise"
             >
-              Cancel
-            </button>
-            <ul className={classes.list}>
-              { this.state.exercises ? (
-                this.state.exercises.map((item: any, index: number) => {
-                  if (item.name.length > 0)
-                    return (
-                      <li className={classes.listItem} key={index}>
-                        <button onClick={() => this.add(item.name)}>
-                          {item.name}
-                        </button>
-                      </li>
-                    )
-                })
-              ) : ( <div>nothing</div>)
-              }
-            </ul>
-          </Modal>
-        <ul className={classes.list}>
-          {
-            this.state.items.map((item: string, index: number) => 
-              <li className={classes.listItem} key={index}>{item}</li>)
-          }
-        </ul>
-        <button className={classes.createButton}
-          onClick={this.makeWorkout}>Create</button>
-      </div>
+              <button
+                className={classes.modalButton}
+                onClick={this.handleCloseModal}
+              >
+                Cancel
+              </button>
+              <ul className={classes.list}>
+                { this.state.exercises ? (
+                  this.state.exercises.map((item: any, index: number) => {
+                    if (item.name.length > 0)
+                      return (
+                        <li className={classes.listItem} key={index}>
+                          <button onClick={() => this.add(item.name)}>
+                            {item.name}
+                          </button>
+                        </li>
+                      )
+                  })
+                ) : ( <div>nothing</div>)
+                }
+              </ul>
+            </Modal>
+          <ul className={classes.list}>
+            {
+              this.state.items.map((item: string, index: number) => 
+                <li className={classes.listItem} key={index}>{item}</li>)
+            }
+          </ul>
+          <button className={classes.createButton}
+            onClick={this.makeWorkout}>Create</button>
+        </div>
+      </Navigation>
     );
   }
 }
