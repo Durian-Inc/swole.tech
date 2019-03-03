@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Search from './Search';
 import Teams from './Teams';
 import TeamView from './TeamView';
+import MakePost from './MakePost';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class Main extends Component {
@@ -22,6 +23,7 @@ class Main extends Component {
           <Route exact path="/search" component={Search} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/profile/:name" component={Profile} />
+          <Route exact path="/post/:workoutId" component={MakePost} />
           <Route exact path="/login" component={Login} />
         </Switch>
       </Router>
