@@ -1,6 +1,8 @@
 """All of the util functions"""
-from models import Buddies, LiveWorkouts, Posted, Workout
 from playhouse.shortcuts import model_to_dict
+
+from models import (Buddies, LiveWorkouts, Posted, Workout,
+                    User, Team, TeamMembers)
 
 
 def get_workout(workout_id):
@@ -55,7 +57,7 @@ def list_live(username):
         for buddy in Buddies.select().where(Buddies.myself == username)
     ]
     buddies.append(username)
-    print(buddies)
+    # print(buddies)
     for buddy in buddies:
         lives += [
             model_to_dict(workout.workout)
@@ -63,3 +65,43 @@ def list_live(username):
                 LiveWorkouts.user == buddy)
         ]
     return lives
+
+
+def get_user_info(user_name):
+    return User.get(User.name == user_name)
+
+
+def list_friends(username):
+    buddies = [
+        str(buddy.my_friend)
+        for buddy in Buddies.select().where(Buddies.myself == username)
+    ]
+    return buddies
+
+
+def list_all_teams():
+    all_teams = Team.select().execute()
+    teams = {}
+    for team in all_teams:
+        teams[team.name] = [
+            str(member.member)
+            for member in TeamMembers.select().where(TeamMembers.team == team)
+        ]
+    return teams
+
+
+def create_team(team_values):
+    try:
+        Team.create(name=team_values['name'])
+        return {"name": team_values['name']}
+    except Exception as e:
+        return e
+
+
+def add_user_to_team(request_values):
+    try:
+        TeamMembers.create(member=request_values['member'],
+                           team=request_values['team'])
+        return {request_values['team']: request_values['member']}
+    except Exception as e:
+        return e

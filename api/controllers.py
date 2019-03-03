@@ -1,13 +1,12 @@
 """Includes all routes used in application"""
-from datetime import datetime
-
 from flask import jsonify, request
 
 from models import Buddies, Posted, Team, User, Workout
 from playhouse.shortcuts import model_to_dict
 from serve import app
 from utils import (get_workout, list_live, list_posts, post_workout,
-                   update_workout)
+                   update_workout, list_friends, get_user_info, list_all_teams,
+                   create_team, add_user_to_team)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -38,34 +37,28 @@ def workout_info(workout_id):
 
 @app.route('/profile/<user_name>', methods=['GET'])
 def user_info(user_name):
-    """user information and all posts"""
-    # ToDo: List all user informatinon
-    #   get_user_info(user_name)
-    pass
-    return "Their info"
+    """
+        User's information
+        name & photo
+    """
+    user_info = get_user_info(user_name)
+    return jsonify(model_to_dict(user_info))
 
 
 @app.route('/<user_name>/friends', methods=['GET'])
-def list_friends(user_name):
+def friends(user_name):
     """lists all of user's friends"""
-    # ToDo: List all of the friends for the user
-    #   list_all_friends(user_name)
-    pass
-    return "Friends go here"
+    friends = list_friends(user_name)
+    return jsonify(values=friends)
 
 
 @app.route('/teams', methods=['GET', 'POST', 'PATCH'])
 def teams():
+    teams = []
     if request.method == 'GET':
-        # ToDo: list all of the teams the members associate with them
-        #   list_all_teams()
-        pass
+        teams = list_all_teams()
     elif request.method == 'POST':
-        # ToDo: Create a new team using the request
-        #   create_team(request_info)
-        pass
+        teams = create_team(request.form)
     elif request.method == 'PATCH':
-        # ToDo: Add a user to the provided team
-        #   add_user_to_team(team_name, user_name)
-        pass
-    return "Teams are here"
+        teams = add_user_to_team(request.form)
+    return jsonify(teams)

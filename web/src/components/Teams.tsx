@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -38,7 +37,7 @@ class Teams extends Component<any, any> {
     const { value } = this.state;
 
     var teams = <div>
-                  <Link to="/" style={{
+                  <Link to={'/user/team'} style={{
                       margin: 'auto',
                       width: '100%',
                       height: '100%',
@@ -60,9 +59,18 @@ class Teams extends Component<any, any> {
                           <h1 style={{margin: 0}}>Durian, Inc.</h1>
                           <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
                         </TeamNames>
-                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '10px'}} />
+                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '20px', marginTop: '20px'}} />
                       </div>
                     </Card>
+                  </Link>
+                  <Link to={'/user/team'} style={{
+                      margin: 'auto',
+                      width: '100%',
+                      height: '100%',
+                      textDecoration: 'none',
+                      color: 'black'
+                    }}
+                  >
                     <Card style={{
                         textAlign: 'left',
                         width: '95%',
