@@ -68,12 +68,24 @@ def list_live(username):
 
 
 def get_user_info(user_name):
-    return User.get(User.name == user_name)
+    user = model_to_dict(User.get(User.name == user_name))
+    user["buddies"] = [
+        model_to_dict(buddy.my_friend)
+        for buddy in Buddies.select().where(Buddies.myself == user["name"])
+    ]
+    user["posts"] = []
+
+    for post in Posted.select().where(Posted.user == user["name"]):
+        post = model_to_dict(post.post)
+        post["name"] = user["name"]
+        user["posts"].append(post)
+
+    return user
 
 
 def list_friends(username):
     buddies = [
-        str(buddy.my_friend)
+        model_to_dict(buddy.my_friend)
         for buddy in Buddies.select().where(Buddies.myself == username)
     ]
     return buddies

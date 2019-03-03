@@ -13,6 +13,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styled from 'styled-components';
 import Navigation from './Navigation';
+import { URL } from './index';
 import 'typeface-roboto';
 
 const ProfileDiv = styled.div`
@@ -37,42 +38,51 @@ const ProfileImage = styled.img`
   margin-top: 10px;
 `
 
-function generate(element: any) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
 class Profile extends Component<any, any> {
   state = {
     value: 0,
+    user: {
+      name: "",
+      buddies: [],
+      posts: []
+    }
   };
+
+  componentWillMount() {
+    const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    fetch(URL + "/profile/" + name)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          user: result
+        });
+      })
+  }
 
   handleChange = (event: any, value: any) => {
     this.setState({ value });
   };
 
   render() {
-    const { value } = this.state;
+    const { value, user } = this.state;
+    console.log(user)
     var friendsList = <List>
-                        {generate(
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar style={{background: '#64838e'}}>
-                                D
-                              </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Single-line item"
-                            />
-                            <ListItemSecondaryAction>
-                              <Button variant="contained">
-                                Remove Friend
-                              </Button>
-                            </ListItemSecondaryAction>
-                          </ListItem>,
+                        { user.buddies.map((item: any, index: number) => 
+                            <ListItem key={index}>
+                              <ListItemAvatar>
+                                <Avatar style={{background: '#64838e'}}>
+                                  D
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary={item.name}
+                              />
+                              <ListItemSecondaryAction>
+                                <Button variant="contained">
+                                  Remove Friend
+                                </Button>
+                              </ListItemSecondaryAction>
+                            </ListItem>
                         )}
                       </List>
 
@@ -89,15 +99,15 @@ class Profile extends Component<any, any> {
         >
           <UpperDiv>
             <ProfileImage src={require('../static/workout.png')}/>
-            <h1 style={{marginTop: '-5px'}}>David Gardiner</h1>
+            <h1 style={{marginTop: '-5px'}}>{user.name}</h1>
             <div style={{marginTop: '-35px'}}>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Workouts</p>
-                <p style={{marginTop: '-20px'}}>123</p>
+                <p style={{marginTop: '-20px'}}>4</p>
               </div>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Friends</p>
-                <p style={{marginTop: '-20px'}}>0</p>
+                <p style={{marginTop: '-20px'}}>{user.buddies.length}</p>
               </div>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Teams</p>
@@ -111,8 +121,9 @@ class Profile extends Component<any, any> {
               <Tab label="Friends List" />
             </Tabs>
           </AppBar>
-          {value === 0 && <Feed posts={[]} />}
-          {value === 1 && friendsList}
+          {
+            value ? friendsList : <Feed posts={user.posts} />
+          }
         </Card>
       </Navigation>
     );

@@ -42,14 +42,14 @@ def user_info(user_name):
         name & photo
     """
     user_info = get_user_info(user_name)
-    return jsonify(model_to_dict(user_info))
+    return jsonify(user_info)
 
 
-@app.route('/<user_name>/friends', methods=['GET'])
+@app.route('/profile/<user_name>/friends', methods=['GET'])
 def friends(user_name):
     """lists all of user's friends"""
     friends = list_friends(user_name)
-    return jsonify(values=friends)
+    return jsonify(friends)
 
 
 @app.route('/users/', methods=['GET'])
