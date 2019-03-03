@@ -8,39 +8,67 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
 import Navigation from './Navigation';
-
-function generate(element: any) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+import { URL } from './index';
 
 class Search extends Component {
   state = {
-    value: ''
+    value: '',
+    users: [],
+    isLoaded: false,
+    error: null
   };
 
+  addFriend = (them: string) => {
+    var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    console.log("post", name, them)
+    console.log("post", them, name)
+  }
+
+  componentDidMount() {
+    fetch(URL + "/users")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            users: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+  }
+
+
   render() {
+    console.log(this.state.users)
     var users = <List>
-                  {generate(
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar style={{background: '#64838e'}}>
-                          D
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Single-line item"
-                      />
-                      <ListItemSecondaryAction>
-                        <Button variant="contained">
-                          Add Friend
-                        </Button>
-                      </ListItemSecondaryAction>
-                    </ListItem>,
-                  )}
+                  {this.state.users ? (
+                    this.state.users.map((item: any, index: number) => 
+                      <ListItem key={index}>
+                        <ListItemAvatar>
+                          <Avatar style={{background: '#64838e'}}>
+                            {item.name.substring(0,1).toUpperCase()}
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={item.name}
+                        />
+                        <ListItemSecondaryAction>
+                          <Button
+                            onClick={() => this.addFriend(item.name)}
+                            variant="contained"
+                          >
+                            Add Friend
+                          </Button>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    )
+                  ) : null}
                 </List>
 
     return (

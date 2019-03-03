@@ -1,8 +1,8 @@
 """All of the util functions"""
 from playhouse.shortcuts import model_to_dict
 
-from models import (Buddies, LiveWorkouts, Posted, Workout,
-                    User, Team, TeamMembers)
+from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
+                    Workout)
 
 from datetime import datetime
 
@@ -12,13 +12,14 @@ def get_workout(workout_id):
 
 def post_workout(workout_values):
     try:
-        Workout.create(
+        workout = Workout.create(
             name=workout_values['name'],
             creator=workout_values['creator'],
             category=workout_values['category'],
             exercises=workout_values['exercises'])
-        return True
+        return model_to_dict(workout)
     except Exception as e:
+        print("ERROR", str(e))
         return e
 
 
@@ -28,7 +29,8 @@ def update_workout(id):
         workout.execute()
         return Workout.get(Workout.id == id)
     except Exception as e:
-        return e
+        print("HUGE", str(e))
+        return str(e)
 
 
 def list_posts(username):
@@ -64,12 +66,24 @@ def list_live(username):
 
 
 def get_user_info(user_name):
-    return User.get(User.name == user_name)
+    user = model_to_dict(User.get(User.name == user_name))
+    user["buddies"] = [
+        model_to_dict(buddy.my_friend)
+        for buddy in Buddies.select().where(Buddies.myself == user["name"])
+    ]
+    user["posts"] = []
+
+    for post in Posted.select().where(Posted.user == user["name"]):
+        post = model_to_dict(post.post)
+        post["name"] = user["name"]
+        user["posts"].append(post)
+
+    return user
 
 
 def list_friends(username):
     buddies = [
-        str(buddy.my_friend)
+        model_to_dict(buddy.my_friend)
         for buddy in Buddies.select().where(Buddies.myself == username)
     ]
     return buddies
@@ -96,8 +110,12 @@ def create_team(team_values):
 
 def add_user_to_team(request_values):
     try:
-        TeamMembers.create(member=request_values['member'],
-                           team=request_values['team'])
+        TeamMembers.create(
+            member=request_values['member'], team=request_values['team'])
         return {request_values['team']: request_values['member']}
     except Exception as e:
         return e
+
+
+def list_users():
+    return [model_to_dict(user) for user in User.select()]

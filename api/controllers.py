@@ -2,10 +2,11 @@
 from flask import jsonify, request
 from playhouse.shortcuts import model_to_dict
 
+from models import Buddies, Posted, Team, User, Workout
 from serve import app
-from utils import (get_workout, list_live, list_posts, post_workout,
-                   update_workout, list_friends, get_user_info, list_all_teams,
-                   create_team, add_user_to_team)
+from utils import (add_user_to_team, create_team, get_user_info, get_workout,
+                   list_all_teams, list_friends, list_live, list_posts,
+                   list_users, post_workout, update_workout)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -17,13 +18,13 @@ def list_feed(username):
     return jsonify(feed=sort_feed, live=lives)
 
 
-@app.route('/workout', methods=['POST'])
+@app.route('/workouts', methods=['POST'])
 def workout():
-    submission = post_workout(request.form)
+    submission = post_workout(request.get_json())
     return jsonify(submission=submission)
 
 
-@app.route('/workout/<workout_id>', methods=['GET', 'PATCH'])
+@app.route('/workouts/<workout_id>', methods=['GET', 'PATCH'])
 def workout_info(workout_id):
     """Info on workout after selecting from feed"""
     workout = None
@@ -41,14 +42,21 @@ def user_info(user_name):
         name & photo
     """
     user_info = get_user_info(user_name)
-    return jsonify(model_to_dict(user_info))
+    return jsonify(user_info)
 
 
-@app.route('/<user_name>/friends', methods=['GET'])
+@app.route('/profile/<user_name>/friends', methods=['GET'])
 def friends(user_name):
     """lists all of user's friends"""
     friends = list_friends(user_name)
-    return jsonify(values=friends)
+    return jsonify(friends)
+
+
+@app.route('/users/', methods=['GET'])
+def all_users():
+    """lists all of user's friends"""
+    users = list_users()
+    return jsonify(users)
 
 
 @app.route('/teams', methods=['GET', 'POST', 'PATCH'])

@@ -14,6 +14,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
+import { URL } from './index';
 
 
 const styles = (theme: Theme) =>
@@ -54,23 +55,29 @@ const styles = (theme: Theme) =>
     }
   })
 
-class WorkoutList extends Component<any, any> {
+class Workout extends Component<any, any> {
   constructor(props: any) {
     super(props)
+    var name = null;
+    var exercises = null;
+    if (props.workout) {
+      name = props.workout.name
+      exercises = props.workout.exercises
+    }
     this.state = {
-      listName: "",
-      items: [],
+      listName: name || "",
+      items: exercises || [],
       exercises: [],
-      showModal: false,
       isLoaded: false,
       error: null,
+      showModal: false,
       redirect: false
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     fetch("https://wger.de/api/v2/exercise/?language=2&limit=700")
       .then(res => res.json())
       .then(
@@ -85,10 +92,8 @@ class WorkoutList extends Component<any, any> {
             isLoaded: true,
             error
           });
-          console.log("SUPER", error)
         }
       );
-
   }
 
   add (item: string) {
@@ -120,7 +125,18 @@ class WorkoutList extends Component<any, any> {
   makeWorkout = () => {
     var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     const { items, listName } = this.state;
-    window.alert(JSON.stringify({name, listName, items}));
+    const data = {creator: name, name: listName, exercises: items, category: "Arms"}
+    console.log(data)
+    fetch(URL + "/workouts", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => console.log(res))
+    .catch(res => console.log(res))
     this.setState({
       redirect: true
     });
@@ -133,7 +149,7 @@ class WorkoutList extends Component<any, any> {
   update = (item: any, event: any) => {
     const { items } = this.state;
     var index = items.indexOf(item);
-    items[index].count = event.target.value;
+    items[index].meta = event.target.value;
 
     this.setState({
       items: items
@@ -144,9 +160,9 @@ class WorkoutList extends Component<any, any> {
     if (this.state.redirect) {
       return <Redirect push to="/" />;
     }
+
     const { classes } = this.props;
     return (
-      <Navigation>
         <div className={classes.container}>
           <input type="text" value={this.state.listName} onChange={this.handleChange} />
           <button
@@ -184,12 +200,13 @@ class WorkoutList extends Component<any, any> {
             </Modal>
 
           <List dense={false}>
-            {this.state.items.map((item: any) =>
-              <ListItem>
+            {this.state.items.map((item: any, index: number) =>
+              <ListItem key={index}>
                 <TextField
                   id="outlined-bare"
                   className={classes.textField}
                   onChange={(event: any) => this.update(item, event)}
+                  defaultValue={item.meta}
                   placeholder="1 rep"
                   margin="dense"
                   variant="outlined"
@@ -213,9 +230,8 @@ class WorkoutList extends Component<any, any> {
           <button className={classes.createButton}
             onClick={this.makeWorkout}>Create</button>
         </div>
-      </Navigation>
     );
   }
 }
 
-export default withStyles(styles)(WorkoutList)
+export default withStyles(styles)(Workout)
