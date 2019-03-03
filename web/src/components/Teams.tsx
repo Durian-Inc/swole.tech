@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Feed from './Feed';
 import Card from '@material-ui/core/Card';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -32,7 +30,7 @@ const ProfileImage = styled.img`
   text-align: center;
   width: 125px;
   border-radius: 50%;
-  border: 1px solid #64838e;
+  border: 1px solid white;
   background: white;
   margin-top: 10px;
 `
@@ -45,7 +43,7 @@ function generate(element: any) {
   );
 }
 
-class Profile extends Component<any, any> {
+class Teams extends Component<any, any> {
   state = {
     value: 0,
   };
@@ -60,18 +58,13 @@ class Profile extends Component<any, any> {
                         {generate(
                           <ListItem>
                             <ListItemAvatar>
-                              <Avatar style={{background: '#64838e'}}>
+                              <Avatar>
                                 D
                               </Avatar>
                             </ListItemAvatar>
                             <ListItemText
                               primary="Single-line item"
                             />
-                            <ListItemSecondaryAction>
-                              <Button variant="contained">
-                                Remove Friend
-                              </Button>
-                            </ListItemSecondaryAction>
                           </ListItem>,
                         )}
                       </List>
@@ -105,7 +98,7 @@ class Profile extends Component<any, any> {
               </div>
             </div>
           </UpperDiv>
-          <AppBar position="static" style={{background: '#64838e'}}>
+          <AppBar position="static" style={{background: 'grey'}}>
             <Tabs value={value} onChange={this.handleChange} indicatorColor='primary' variant='fullWidth'>
               <Tab label="Your Feed" />
               <Tab label="Friends List" />
@@ -119,4 +112,4 @@ class Profile extends Component<any, any> {
   }
 }
 
-export default Profile;
+export default Teams;

@@ -5,7 +5,7 @@ from models import Buddies, Posted, Team, User, Workout
 from playhouse.shortcuts import model_to_dict
 from serve import app
 
-from utils import post_workout, update_workout, get_workout
+from utils import post_workout, update_workout, get_workout, list_posts
 
 
 @app.route('/<user_name>', methods=['GET', 'POST'])
@@ -14,12 +14,8 @@ def list_feed(user_name):
     """content of post, content of workout in post"""
     """sort posts by date"""
     """list_posts() in utils"""
-    # feed = list_posts()
-    # posts = []
-    # for post in feed:
-    #     posts.append(model_to_dict(post))
-    # return jsonify(values=posts)
-    return "The feeeeed"
+    feed = list_posts(user_name)
+    return jsonify(values=feed)
 
 
 # def live_workouts(user_id):
@@ -41,10 +37,9 @@ def workout():
 
 @app.route('/workout/<workout_id>', methods=['GET'])
 def workout_info(workout_id):
-    """info on workout after selecting from feed"""
-    # ToDo: Return info on the workout here
+    """Info on workout after selecting from feed"""
     workout = get_workout(workout_id)
-    return jsonify(workout=workout)
+    return jsonify(model_to_dict(workout))
 
 
 @app.route('/<user_name>', methods=['GET'])
