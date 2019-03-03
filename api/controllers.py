@@ -2,13 +2,12 @@
 from datetime import datetime
 
 from flask import jsonify, request
+from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
-from playhouse.shortcuts import model_to_dict
 from serve import app
-from utils import list_live, list_posts
-
-print('here')
+from utils import (get_workout, list_live, list_posts, post_workout,
+                   update_workout)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -24,13 +23,20 @@ def list_feed(username):
 def workout():
     if request.method == 'POST':
         # ToDo: Post workout function passed request dict
-        #   post_workout(request_dict)
-        pass
+        values = [request.form[key] for key in request.form.keys()]
+        post_workout(values)
     elif request.method == 'PATCH':
         # ToDo: Send workout id to DB to upadte values from request
-        #    create_workout(id, values):
-        pass
-    return "Some workout"
+        values = [request.form[key] for key in request.form.keys()]
+        update_workout(id, values)
+    return None
+
+
+@app.route('/workout/<workout_id>', methods=['GET'])
+def workout_info(workout_id):
+    """Info on workout after selecting from feed"""
+    workout = get_workout(workout_id)
+    return jsonify(model_to_dict(workout))
 
 
 @app.route('/profile/<user_name>', methods=['GET'])
@@ -66,11 +72,3 @@ def teams():
         #   add_user_to_team(team_name, user_name)
         pass
     return "Teams are here"
-
-
-@app.route('/workout/<workout_id>', methods=['GET'])
-def workout_info(workout_id):
-    """info on workout after selecting from feed"""
-    # ToDo: Return info on the workout here
-    #   get_workout(workout_id)
-    return "Workout info go here"
