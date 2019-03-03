@@ -10,14 +10,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Navigation from './Navigation';
 import { URL } from './index';
 
-function generate(element: any) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
 class Search extends Component {
   state = {
     value: '',
@@ -25,6 +17,12 @@ class Search extends Component {
     isLoaded: false,
     error: null
   };
+
+  addFriend = (them: string) => {
+    var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    console.log("post", name, them)
+    console.log("post", them, name)
+  }
 
   componentDidMount() {
     fetch(URL + "/users")
@@ -54,14 +52,17 @@ class Search extends Component {
                       <ListItem key={index}>
                         <ListItemAvatar>
                           <Avatar style={{background: '#64838e'}}>
-                            D
+                            {item.name.substring(0,1).toUpperCase()}
                           </Avatar>
                         </ListItemAvatar>
                         <ListItemText
                           primary={item.name}
                         />
                         <ListItemSecondaryAction>
-                          <Button variant="contained">
+                          <Button
+                            onClick={() => this.addFriend(item.name)}
+                            variant="contained"
+                          >
                             Add Friend
                           </Button>
                         </ListItemSecondaryAction>
