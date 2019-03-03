@@ -111,8 +111,8 @@ def list_all_user_teams(member_name):
         teams = TeamMembers.select().where(
             TeamMembers.member == user[0].name).execute()
         for team in teams:
-            manager = TeamMembers.select().where(TeamMembers.is_manager,
-                                                 TeamMembers.team == team)
+            manager = TeamMembers.select().where((TeamMembers.is_manager) &
+                                                 (TeamMembers.team == team.team))
             teams_and_managers[str(team.team)] = model_to_dict(
                 manager[0].member)
         return teams_and_managers
@@ -129,12 +129,12 @@ def create_team(team_values):
 
 
 def add_user_to_team(request_values):
-    try:
-        TeamMembers.create(
-            member=request_values['member'], team=request_values['team'])
-        return {request_values['team']: request_values['member']}
-    except Exception as e:
-        return e
+  try:
+      TeamMembers.create(
+          member=request_values['member'], team=request_values['team'], is_manager=request_values['is_manager'])
+      return {request_values['team']: request_values['member'] - request_values['is_manager']}
+  except Exception as e:
+      return e
 
 
 def list_users():

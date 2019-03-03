@@ -79,9 +79,9 @@ def teams(member):
     if request.method == 'GET':
         teams = list_all_user_teams(member)
     elif request.method == 'POST':
-        teams = create_team(request.form)
+        teams = create_team(request.get_json())
     elif request.method == 'PATCH':
-        teams = add_user_to_team(request.form)
+        teams = add_user_to_team(request.get_json())
     return jsonify(teams)
 
 
