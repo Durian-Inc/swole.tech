@@ -30,7 +30,7 @@ def workout_info(workout_id):
     if request.method == 'GET':
         workout = get_workout(workout_id)
     elif request.method == 'PATCH':
-        workout = update_workout(workout_id, request.form)
+        workout = update_workout(workout_id)
     return jsonify(model_to_dict(workout))
 
 
