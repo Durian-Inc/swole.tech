@@ -27,7 +27,7 @@ class Search extends Component {
                   {generate(
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar>
+                        <Avatar style={{background: '#64838e'}}>
                           D
                         </Avatar>
                       </ListItemAvatar>

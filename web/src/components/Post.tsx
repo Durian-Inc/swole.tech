@@ -31,7 +31,7 @@ class Post extends Component<IProps, {}> {
   render() {
     var avatar, workoutImage, workoutDescription
     if(this.props.avatar == '')
-      avatar = <Avatar aria-label="name">{this.props.name.substring(0,1).toUpperCase()}</Avatar>
+      avatar = <Avatar aria-label="name" style={{background: '#64838e'}}>{this.props.name.substring(0,1).toUpperCase()}</Avatar>
     else
       avatar = <Avatar aria-label="name" src={this.props.avatar}></Avatar>;
 
