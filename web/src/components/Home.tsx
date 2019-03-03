@@ -7,7 +7,7 @@ class Home extends Component<any, any> {
   render() {
     return (
       <Navigation>
-        <Stories stories={[{name: "Tom", category:"legs"}, {name: "Steve", category:"arms"}]} />
+        <Stories style={{overflow: 'hidden'}} stories={[{name: "Tom", category:"Legs"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}]} />
         <Feed />
       </Navigation>
     );
