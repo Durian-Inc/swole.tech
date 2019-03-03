@@ -5,6 +5,7 @@ import Home from './Home';
 import Profile from './Profile';
 import Search from './Search';
 import Teams from './Teams';
+import TeamView from './TeamView';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class Main extends Component {
@@ -15,6 +16,7 @@ class Main extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/teams" component={Teams} />
           <Route exact path="/teams/:name" component={Teams} />
+          <Route exact path="/:name/:teamname" component={TeamView} />
           <Route exact path="/workout" component={WorkoutList} />
           <Route exact path="/workout/:id" component={WorkoutList} />
           <Route exact path="/search" component={Search} />
