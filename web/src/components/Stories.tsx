@@ -77,7 +77,7 @@ class Stories extends Component<any, any> {
       <StoriesHolderWrapper>
         <StoriesHolder>
           {this.state.stories.map((item: any) =>
-            <Story workout={item} />)}
+            <Story workout={item} key={item.id} />)}
         </StoriesHolder>
       </StoriesHolderWrapper>
     );

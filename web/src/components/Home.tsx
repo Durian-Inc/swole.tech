@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Feed from './Feed';
 import Navigation from './Navigation';
 import Stories from './Stories';
+import { URL } from './index';
 
 const stories = [{name: "Tom", category:"Legs"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}, {name: "Steve", category:"Arms"}]
 
@@ -17,20 +18,21 @@ class Home extends Component<any, any> {
   componentWillMount() {
     const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
  
-    fetch('http://localhost:8080/users/' + name)
+    fetch(URL + '/users/' + name)
       .then(response => response.json())
-      .then(data => this.setState({ data }));
+      .then(data => this.setState({ data }), error => console.log(error));
   }
 
   render() {
     const { data } = this.state;
-    console.log(data ? data.live : []);
     return (
       <Navigation>
         { data ? (
-        <Stories style={{overflow: 'hidden'}} stories={data.live} />
+          <div>
+            <Stories style={{overflow: 'hidden'}} stories={data.live} />
+            <Feed posts={data.feed} />
+          </div>
         ) : null}
-        <Feed />
       </Navigation>
     );
   }

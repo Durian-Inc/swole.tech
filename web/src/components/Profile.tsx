@@ -111,7 +111,7 @@ class Profile extends Component<any, any> {
               <Tab label="Friends List" />
             </Tabs>
           </AppBar>
-          {value === 0 && <Feed />}
+          {value === 0 && <Feed posts={[]} />}
           {value === 1 && friendsList}
         </Card>
       </Navigation>

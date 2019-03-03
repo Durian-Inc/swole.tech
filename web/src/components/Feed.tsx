@@ -1,50 +1,34 @@
 import React, { Component } from 'react';
 import Post from './Post';
+import Avatar from '@material-ui/core/Avatar';
 
-class Feed extends Component {
+class Feed extends Component<any, any> {
   render() {
+    const { posts } = this.props;
+    
     return (
       <div style={{marginBottom: '65px'}}>
-        <Post
-          avatar={require('../static/workout.png')}
-          name='David Gardiner'
-          date='September 14, 2016'
-          workoutImage={require('../static/test.jpg')}
-          workoutDescription='Woo, that was a tough one!'
-          workoutIcon={require('../static/workout.png')}
-          workoutName='Upper Body'
-          workoutTime='1:20:47'
-        />
-        <Post
-          avatar=''
-          name='Clay McGinnis'
-          date='March 1, 2019'
-          workoutImage=''
-          workoutDescription=''
-          workoutIcon={require('../static/workout.png')}
-          workoutName='Upper Body'
-          workoutTime='1:20:47'
-        />
-        <Post
-          avatar={require('../static/workout.png')}
-          name='David Gardiner'
-          date='September 14, 2016'
-          workoutImage={require('../static/test.jpg')}
-          workoutDescription='Woo, that was a tough one!'
-          workoutIcon={require('../static/workout.png')}
-          workoutName='Upper Body'
-          workoutTime='1:20:47'
-        />
-        <Post
-          avatar=''
-          name='Clay McGinnis'
-          date='March 1, 2019'
-          workoutImage=''
-          workoutDescription=''
-          workoutIcon={require('../static/workout.png')}
-          workoutName='Upper Body'
-          workoutTime='1:20:47'
-        />
+      { posts.map((data: any) => {
+      var photo = "";
+      var caption = "";
+      if (data.photo)
+        photo = data.photo;
+      if (data.caption)
+        caption = data.caption;
+
+      return <Post
+        key={data.id}
+        avatar=''
+        name={data.name}
+        date={data.date}
+        workoutImage={photo}
+        workoutDescription={data.caption}
+        workoutIcon={require('../static/workout.png')}
+        workoutName={data.category}
+        workoutTime='1:20:47'
+        workoutLink={'/workout/' + data.original_workout.id}
+      />
+      })}
       </div>
     );
   }
