@@ -1,5 +1,5 @@
 # SwoleTech - Centralized workout sharing platform
-> Created for Local Hack Day 2018 by Durian Inc.      
+> Created for PickHacks 2019 by Durian Inc.      
 Team: Clay McGinnis, David Gardiner, Innocent Niyibizi, Katie Pitz      
 > https://swole.tech/
 ## Purpose
