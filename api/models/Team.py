@@ -1,7 +1,7 @@
 """All of the teams"""
 from models import BaseModel
-from playhouse.postgres_ext import CharField
+from playhouse.postgres_ext import PrimaryKeyField
 
 
 class Team(BaseModel):
-    name = CharField(null=False, unique=True)
+    name = PrimaryKeyField(null=False)
