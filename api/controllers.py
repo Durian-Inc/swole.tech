@@ -8,10 +8,12 @@ from utils import list_posts
 
 from serve import app
 
+print('here')
+
 
 @app.route('/<user_name>', methods=['GET', 'POST'])
 def list_feed(user_name):
-    print('here')
+
     """lists workout feed of posts"""
     """content of post, content of workout in post"""
     """sort posts by date"""

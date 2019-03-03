@@ -1,5 +1,5 @@
 """Runs the server"""
 from serve import app
 
-
-app.run(host='localhost', port=8080)
+if __name__ == '__main__':
+    app.run(debug=True, host='localhost', port=8080)
