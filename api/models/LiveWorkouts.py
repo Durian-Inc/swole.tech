@@ -1,6 +1,7 @@
 """All of the live workouts"""
-from models import BaseModel, Workout, User
-from playhouse.postgres_ext import ForeignKeyField
+from playhouse.postgres_ext import CompositeKey, ForeignKeyField
+
+from models import BaseModel, User, Workout
 
 
 class LiveWorkouts(BaseModel):
@@ -8,4 +9,4 @@ class LiveWorkouts(BaseModel):
     workout = ForeignKeyField(Workout)
 
     class Meta:
-        index = ('usesr', 'workout')
+        primary_key = CompositeKey('user', 'workout')
