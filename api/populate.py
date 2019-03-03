@@ -30,12 +30,14 @@ def populate_db():
         second_user = User.create(name='kim', photo='https://bit.ly/2C1e0DA')
         third_user = User.create(name='kimmy', photo='https://bit.ly/2C1e0DA')
         fourth_user = User.create(name='tom', photo='https://bit.ly/2C1e0DA')
+        fifth_user = User.create(name='greg', photo='https://bit.ly/2C1e0DA')
 
         # Creating a few friendships
         Buddies.create(myself=first_user, my_friend=second_user)
         Buddies.create(myself=second_user, my_friend=first_user)
         Buddies.create(myself=third_user, my_friend=fourth_user)
         Buddies.create(myself=fourth_user, my_friend=third_user)
+        Buddies.create(myself=fifth_user, my_friend=first_user)
 
         # Creating workouts and one live workout!
         first_workkout = Workout.create(

@@ -7,7 +7,8 @@ from playhouse.shortcuts import model_to_dict
 from models import Buddies, Posted, Team, User, Workout
 from serve import app
 from utils import (get_workout, list_live, list_posts, post_workout,
-                   update_workout, list_friends, get_user_info)
+                   update_workout, list_friends, get_user_info, list_all_teams,
+                   create_team, add_user_to_team)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -54,16 +55,11 @@ def friends(user_name):
 
 @app.route('/teams', methods=['GET', 'POST', 'PATCH'])
 def teams():
+    teams = []
     if request.method == 'GET':
-        # ToDo: list all of the teams the members associate with them
-        #   list_all_teams()
-        pass
+        teams = list_all_teams()
     elif request.method == 'POST':
-        # ToDo: Create a new team using the request
-        #   create_team(request_info)
-        pass
+        teams = create_team(request.form)
     elif request.method == 'PATCH':
-        # ToDo: Add a user to the provided team
-        #   add_user_to_team(team_name, user_name)
-        pass
-    return "Teams are here"
+        teams = add_user_to_team(request.form)
+    return jsonify(teams)
