@@ -10,6 +10,8 @@ class MakePost extends Component<any, any> {
     super(props)
     
     this.state = {
+      content: null,
+      url: null,
       workout: null,
       isLoaded: false,
       error: null,
@@ -24,7 +26,7 @@ class MakePost extends Component<any, any> {
         (result) => {
           this.setState({
             isLoaded: true,
-            exercises: result.results,
+            workout: result,
           });
         },
         (error) => {
@@ -60,13 +62,33 @@ class MakePost extends Component<any, any> {
   }
 
   update = (item: any, event: any) => {
-    const { items } = this.state;
-    var index = items.indexOf(item);
-    items[index].meta = event.target.value;
-
     this.setState({
-      items: items
+      [item]: event.target.value
     })
+  }
+
+  post = () => {
+    const { url, content } = this.state;
+    const { creator, id } = this.state.workout;
+    window.alert(id);
+    window.alert(url + content + creator);
+
+    fetch(URL + "/workouts/" + id, {
+      method: "PATCH"
+    })
+    .then(res => console.log(res))
+    .catch(res => console.log(res))
+
+    fetch(URL + "/posts/", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => console.log(res))
+    .catch(res => console.log(res))
   }
 
   render() {
@@ -75,17 +97,27 @@ class MakePost extends Component<any, any> {
     }
 
     return (
-        <div>
-          <input type="text"/>
+        <Navigation>
           <TextField
+            id="outlined-bare"
+            label="Image URL"
+            onChange={(event: any) => this.update('url', event)}
+            placeholder="https://google.com"
+            margin="dense"
+            variant="outlined"
+          />
+          <TextField
+            label="Content"
+            multiline
+            onChange={(event: any) => this.update('content', event)}
             id="outlined-bare"
             placeholder="1 rep"
             margin="dense"
             variant="outlined"
           />
 
-          <button>Create</button>
-        </div>
+          <button onClick={this.post}>Create</button>
+        </Navigation>
     );
   }
 }
