@@ -1,10 +1,11 @@
 """All of the util functions"""
+from datetime import datetime
+
 from playhouse.shortcuts import model_to_dict
 
 from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
                     Workout)
 
-from datetime import datetime
 
 def get_workout(workout_id):
     return Workout.get(Workout.id == workout_id)
@@ -26,7 +27,9 @@ def post_workout(workout_values):
 
 def update_workout(id):
     try:
-        workout = Workout.update({'end_time': datetime.now()}).where(Workout.id == id)
+        workout = Workout.update({
+            'end_time': datetime.now()
+        }).where(Workout.id == id)
         workout.execute()
         return Workout.get(Workout.id == id)
     except Exception as e:
@@ -90,6 +93,13 @@ def list_friends(username):
     return buddies
 
 
+def add_friend(username, data):
+    other_guy = data["friend"]
+    buddy = Buddies.create(myself=username, my_friend=other_guy)
+    Buddies.create(myself=other_guy, my_friend=username)
+    return model_to_dict(buddy)
+
+
 def list_all_teams():
     return [model_to_dict(team) for team in TeamMembers.select().execute()]
 
@@ -98,10 +108,12 @@ def list_all_user_teams(member_name):
     user = User.select().where(User.name == member_name).execute()
     try:
         teams_and_managers = {}
-        teams = TeamMembers.select().where(TeamMembers.member == user[0].name).execute()
+        teams = TeamMembers.select().where(
+            TeamMembers.member == user[0].name).execute()
         for team in teams:
             manager = TeamMembers.select().where(TeamMembers.is_manager)
-            teams_and_managers[str(team.team)] = model_to_dict(manager[0].member)
+            teams_and_managers[str(team.team)] = model_to_dict(
+                manager[0].member)
         return teams_and_managers
     except IndexError:
         return {}
