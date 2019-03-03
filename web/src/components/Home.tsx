@@ -17,7 +17,7 @@ class Home extends Component<any, any> {
 
   componentWillMount() {
     const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
- 
+
     fetch(URL + '/users/' + name)
       .then(response => response.json())
       .then(data => this.setState({ data }), error => console.log(error));

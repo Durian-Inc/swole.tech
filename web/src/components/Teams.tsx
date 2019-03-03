@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import styled from 'styled-components';
 import Navigation from './Navigation';
+import TeamCreate from './TeamCreate';
+import { URL } from './index';
 import 'typeface-roboto';
 
 const TeamNames = styled.div`
@@ -27,70 +29,88 @@ function generate(element: any) {
 class Teams extends Component<any, any> {
   state = {
     value: 0,
+    users: [],
+    teams: [],
+    name: document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
+    isLoaded: false,
+    error: null
   };
 
   handleChange = (event: any, value: any) => {
     this.setState({ value });
   };
 
+  componentDidMount() {
+    fetch(URL + "/teams/" + this.state.name)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result)
+          this.setState({
+            isLoaded: true,
+            teams: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+
+    fetch(URL + "/users")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            users: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+  }
+
   render() {
     const { value } = this.state;
-    var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
- 
 
     var teams = <div>
-                  <Link to={'/profile/' + name + '/team'} style={{
-                      margin: 'auto',
-                      width: '100%',
-                      height: '100%',
-                      textDecoration: 'none',
-                      color: 'black'
-                    }}
-                  >
-                    <Card style={{
-                        textAlign: 'left',
-                        width: '95%',
-                        height: '100%',
-                        margin: 'auto',
-                        marginTop: '15px',
-                        padding: '10px 0px'
-                      }}
-                    >
-                      <div style={{width: '100%', height: '100%'}}>
-                        <TeamNames>
-                          <h1 style={{margin: 0}}>Durian, Inc.</h1>
-                          <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
-                        </TeamNames>
-                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '20px', marginTop: '20px'}} />
-                      </div>
-                    </Card>
-                  </Link>
-                  <Link to={'/user/team'} style={{
-                      margin: 'auto',
-                      width: '100%',
-                      height: '100%',
-                      textDecoration: 'none',
-                      color: 'black'
-                    }}
-                  >
-                    <Card style={{
-                        textAlign: 'left',
-                        width: '95%',
-                        height: '100%',
-                        margin: 'auto',
-                        marginTop: '15px',
-                        padding: '10px 0px'
-                      }}
-                    >
-                      <div style={{width: '100%', height: '100%'}}>
-                        <TeamNames>
-                          <h1 style={{margin: 0}}>Durian, Inc.</h1>
-                          <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
-                        </TeamNames>
-                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '10px'}} />
-                      </div>
-                    </Card>
-                  </Link>
+                  {this.state.teams ? (
+                    this.state.users.map((item: any, index: number) =>
+                      <Link to={'/profile/' + name + 'team'} style={{
+                          margin: 'auto',
+                          width: '100%',
+                          height: '100%',
+                          textDecoration: 'none',
+                          color: 'black'
+                        }}
+                      >
+                        <Card style={{
+                            textAlign: 'left',
+                            width: '95%',
+                            height: '100%',
+                            margin: 'auto',
+                            marginTop: '15px',
+                            padding: '10px 0px'
+                          }}
+                        >
+                          <div style={{width: '100%', height: '100%'}}>
+                            <TeamNames>
+                              <h1 style={{margin: 0}}>Team Name</h1>
+                              <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
+                            </TeamNames>
+                            <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '20px', marginTop: '20px'}} />
+                          </div>
+                        </Card>
+                      </Link>
+                    )
+                  ) : null }
                 </div>
 
     return (
@@ -111,7 +131,7 @@ class Teams extends Component<any, any> {
             </Tabs>
           </AppBar>
           {value === 0 && teams}
-          {value === 1 && <div></div>}
+          {value === 1 && <div><TeamCreate users={this.state.users} /></div>}
         </Card>
       </Navigation>
     );
