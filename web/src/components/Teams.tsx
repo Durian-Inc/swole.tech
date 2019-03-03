@@ -1,38 +1,20 @@
 import React, { Component } from 'react';
-import Feed from './Feed';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import AppBar from '@material-ui/core/AppBar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import styled from 'styled-components';
 import Navigation from './Navigation';
 import 'typeface-roboto';
 
-const ProfileDiv = styled.div`
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  font-family: Roboto;
-`
-
-const UpperDiv = styled.div`
-  height: 250px;
-  background: lightgrey;
-  text-align: center;
-`
-
-const ProfileImage = styled.img`
-  text-align: center;
-  width: 125px;
-  border-radius: 50%;
-  border: 1px solid white;
-  background: white;
-  margin-top: 10px;
+const TeamNames = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  float: left;
 `
 
 function generate(element: any) {
@@ -54,20 +36,52 @@ class Teams extends Component<any, any> {
 
   render() {
     const { value } = this.state;
-    var friendsList = <List>
-                        {generate(
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar>
-                                D
-                              </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary="Single-line item"
-                            />
-                          </ListItem>,
-                        )}
-                      </List>
+
+    var teams = <div>
+                  <Link to="/" style={{
+                      margin: 'auto',
+                      width: '100%',
+                      height: '100%',
+                      textDecoration: 'none',
+                      color: 'black'
+                    }}
+                  >
+                    <Card style={{
+                        textAlign: 'left',
+                        width: '95%',
+                        height: '100%',
+                        margin: 'auto',
+                        marginTop: '15px',
+                        padding: '10px 0px'
+                      }}
+                    >
+                      <div style={{width: '100%', height: '100%'}}>
+                        <TeamNames>
+                          <h1 style={{margin: 0}}>Durian, Inc.</h1>
+                          <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
+                        </TeamNames>
+                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '10px'}} />
+                      </div>
+                    </Card>
+                    <Card style={{
+                        textAlign: 'left',
+                        width: '95%',
+                        height: '100%',
+                        margin: 'auto',
+                        marginTop: '15px',
+                        padding: '10px 0px'
+                      }}
+                    >
+                      <div style={{width: '100%', height: '100%'}}>
+                        <TeamNames>
+                          <h1 style={{margin: 0}}>Durian, Inc.</h1>
+                          <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
+                        </TeamNames>
+                        <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '10px'}} />
+                      </div>
+                    </Card>
+                  </Link>
+                </div>
 
     return (
       <Navigation>
@@ -80,32 +94,14 @@ class Teams extends Component<any, any> {
                 borderRadius: 0
               }}
         >
-          <UpperDiv>
-            <ProfileImage src={require('../static/workout.png')}/>
-            <h1 style={{marginTop: '-5px'}}>David Gardiner</h1>
-            <div style={{marginTop: '-35px'}}>
-              <div style={{width: '33%', float: 'left'}}>
-                <p style={{fontSize: '20px'}}>Workouts</p>
-                <p style={{marginTop: '-20px'}}>123</p>
-              </div>
-              <div style={{width: '33%', float: 'left'}}>
-                <p style={{fontSize: '20px'}}>Friends</p>
-                <p style={{marginTop: '-20px'}}>0</p>
-              </div>
-              <div style={{width: '33%', float: 'left'}}>
-                <p style={{fontSize: '20px'}}>Teams</p>
-                <p style={{marginTop: '-20px'}}>2</p>
-              </div>
-            </div>
-          </UpperDiv>
-          <AppBar position="static" style={{background: 'grey'}}>
+          <AppBar position="static" style={{background: '#64838e'}}>
             <Tabs value={value} onChange={this.handleChange} indicatorColor='primary' variant='fullWidth'>
-              <Tab label="Your Feed" />
-              <Tab label="Friends List" />
+              <Tab label="Your Teams" />
+              <Tab label="Create a Team" />
             </Tabs>
           </AppBar>
-          {value === 0 && <Feed />}
-          {value === 1 && friendsList}
+          {value === 0 && teams}
+          {value === 1 && <div></div>}
         </Card>
       </Navigation>
     );

@@ -64,7 +64,7 @@ class Navigation extends Component<any, any> {
               textDecoration: 'none',
             }}
           >
-            <h1 style={{textAlign: 'center', margin: 'auto', color: '#64838e'}}>swole.<span style={{color: '#FC7F00'}}>tech</span></h1>
+            <h1 style={{textAlign: 'center', margin: 'auto', paddingTop: '5px', color: '#64838e'}}>swole.<span style={{color: '#FC7F00'}}>tech</span></h1>
           </div>
           {this.props.children}
           <BottomNavigation

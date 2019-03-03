@@ -10,6 +10,6 @@ class Workout(BaseModel):
     name = CharField(null=False)
     category = CharField()
     start_time = DateTimeField(default=datetime.now())
-    end_time = DateTimeField()
+    end_time = DateTimeField(null=True)
     creator = CharField(null=False)
     exercises = JSONField(default=[])
