@@ -4,6 +4,7 @@ from playhouse.shortcuts import model_to_dict
 from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
                     Workout)
 
+from datetime import datetime
 
 def get_workout(workout_id):
     return Workout.get(Workout.id == workout_id)
@@ -16,20 +17,18 @@ def post_workout(workout_values):
             creator=workout_values['creator'],
             category=workout_values['category'],
             exercises=workout_values['exercises'])
+        LiveWorkouts.create(user=workout_values['creator'], workout=workout)
         return model_to_dict(workout)
     except Exception as e:
         print("ERROR", str(e))
         return e
 
 
-def update_workout(id, values):
+def update_workout(id):
     try:
-        for key in values.keys():
-            workout = Workout.update({
-                key: values[key]
-            }).where(Workout.id == id)
-            workout.execute()
-        return model_to_dict(Workout.get(Workout.id == id))
+        workout = Workout.update({'end_time': datetime.now()}).where(Workout.id == id)
+        workout.execute()
+        return Workout.get(Workout.id == id)
     except Exception as e:
         print("HUGE", str(e))
         return str(e)
@@ -68,12 +67,24 @@ def list_live(username):
 
 
 def get_user_info(user_name):
-    return User.get(User.name == user_name)
+    user = model_to_dict(User.get(User.name == user_name))
+    user["buddies"] = [
+        model_to_dict(buddy.my_friend)
+        for buddy in Buddies.select().where(Buddies.myself == user["name"])
+    ]
+    user["posts"] = []
+
+    for post in Posted.select().where(Posted.user == user["name"]):
+        post = model_to_dict(post.post)
+        post["name"] = user["name"]
+        user["posts"].append(post)
+
+    return user
 
 
 def list_friends(username):
     buddies = [
-        str(buddy.my_friend)
+        model_to_dict(buddy.my_friend)
         for buddy in Buddies.select().where(Buddies.myself == username)
     ]
     return buddies

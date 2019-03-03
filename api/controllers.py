@@ -31,7 +31,7 @@ def workout_info(workout_id):
     if request.method == 'GET':
         workout = get_workout(workout_id)
     elif request.method == 'PATCH':
-        workout = update_workout(workout_id, request.get_json())
+        workout = update_workout(workout_id)
     return jsonify(model_to_dict(workout))
 
 
@@ -42,14 +42,20 @@ def user_info(user_name):
         name & photo
     """
     user_info = get_user_info(user_name)
-    return jsonify(model_to_dict(user_info))
+    return jsonify(user_info)
 
 
-@app.route('/<user_name>/friends', methods=['GET'])
+@app.route('/profile/<username>/lives', methods=['GET'])
+def user_lives(username):
+    lives = list_live(username)
+    return jsonify(lives)
+
+
+@app.route('/profile/<user_name>/friends', methods=['GET'])
 def friends(user_name):
     """lists all of user's friends"""
     friends = list_friends(user_name)
-    return jsonify(values=friends)
+    return jsonify(friends)
 
 
 @app.route('/users/', methods=['GET'])
