@@ -2,6 +2,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 
 from dotenv import load_dotenv
 from playhouse.postgres_ext import PostgresqlExtDatabase
@@ -14,10 +15,11 @@ DATABASE_USER = os.getenv("DATABASE-USER")
 DATABASE_PASS = os.getenv("DATABASE-PASS")
 
 app = Flask("Swole Tech")
+CORS(app)
 app.config.from_object('config')
 db = PostgresqlExtDatabase(
-        DATABASE_NAME,
-        host=DATABASE_HOST,
-        port=DATABASE_PORT,
-        user=DATABASE_USER,
-        password=DATABASE_PASS)
+    DATABASE_NAME,
+    host=DATABASE_HOST,
+    port=DATABASE_PORT,
+    user=DATABASE_USER,
+    password=DATABASE_PASS)

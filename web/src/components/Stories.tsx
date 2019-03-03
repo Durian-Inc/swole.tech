@@ -36,6 +36,7 @@ height: 80px;
 width: 99%;
 margin: auto;
 overflow: auto;
+overflow-y: hidden;
 box-sizing: content-box;
 `
 
@@ -48,7 +49,7 @@ class Story extends Component<any, any> {
   render() {
     var avatar;
     if('' == '')
-      avatar = <Avatar aria-label="name" style={{background: '#64838e'}}>{this.props.workout.name.substring(0,1).toUpperCase()}</Avatar>;
+      avatar = <Avatar aria-label="name" style={{background: '#64838e'}}>{this.props.workout.creator.substring(0,1).toUpperCase()}</Avatar>;
     else
       avatar = <Avatar aria-label="name" src={''}></Avatar>;
 
@@ -67,7 +68,7 @@ class Stories extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      stories: this.props.stories || []
+      stories: this.props.stories
     };
   }
 
