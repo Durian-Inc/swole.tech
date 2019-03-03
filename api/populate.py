@@ -33,22 +33,24 @@ def populate_db():
 
         # Creating a few friendships
         Buddies.create(myself=first_user, my_friend=second_user)
+        Buddies.create(myself=second_user, my_friend=first_user)
         Buddies.create(myself=third_user, my_friend=fourth_user)
+        Buddies.create(myself=fourth_user, my_friend=third_user)
 
         # Creating workouts and one live workout!
         first_workkout = Workout.create(
             name='Swole!',
-            end_time=datetime.now(),
+            end_time=datetime.now().isoformat(),
             creator=first_user.name,
             category='Arm',
             exercises=exercises)
         LiveWorkouts.create(user=first_user, workout=first_workkout)
         next_workkout = Workout.create(
             name='Swole!!',
-            end_time=datetime.now(),
+            end_time=datetime.now().isoformat(),
             creator=second_user.name,
             category='Arm',
-            end_date=datetime.now(),
+            end_date=datetime.now().isoformat(),
             exercises=exercises)
         # Creating a single post
         post = Post.create(

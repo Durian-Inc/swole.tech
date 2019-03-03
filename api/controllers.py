@@ -1,25 +1,22 @@
 """Includes all routes used in application"""
+from datetime import datetime
+
 from flask import jsonify, request
+from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
-from playhouse.shortcuts import model_to_dict
 from serve import app
+from utils import (get_workout, list_live, list_posts, post_workout,
+                   update_workout)
 
-from utils import post_workout, update_workout, get_workout, list_posts
 
-
-@app.route('/<user_name>', methods=['GET', 'POST'])
-def list_feed(user_name):
+@app.route('/users/<username>', methods=['GET', 'POST'])
+def list_feed(username):
     """lists workout feed of posts"""
-    """content of post, content of workout in post"""
-    """sort posts by date"""
-    """list_posts() in utils"""
-    feed = list_posts(user_name)
-    return jsonify(values=feed)
-
-
-# def live_workouts(user_id):
-#     """friends live workouts, sorted by most recent start date"""
+    lives = list_live(username)
+    feed = list_posts(username)
+    sort_feed = sorted(feed, key=lambda k: k['date'])
+    return jsonify(feed=sort_feed, live=lives)
 
 
 @app.route('/workout', methods=['POST'])
@@ -41,7 +38,7 @@ def workout_info(workout_id):
     return jsonify(model_to_dict(workout))
 
 
-@app.route('/<user_name>', methods=['GET'])
+@app.route('/profile/<user_name>', methods=['GET'])
 def user_info(user_name):
     """user information and all posts"""
     # ToDo: List all user informatinon
