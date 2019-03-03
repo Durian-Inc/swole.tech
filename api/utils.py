@@ -105,3 +105,7 @@ def add_user_to_team(request_values):
         return {request_values['team']: request_values['member']}
     except Exception as e:
         return e
+
+
+def list_users():
+    return [model_to_dict(user) for user in User.select()]

@@ -1,12 +1,12 @@
 """Includes all routes used in application"""
 from flask import jsonify, request
+from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
-from playhouse.shortcuts import model_to_dict
 from serve import app
-from utils import (get_workout, list_live, list_posts, post_workout,
-                   update_workout, list_friends, get_user_info, list_all_teams,
-                   create_team, add_user_to_team)
+from utils import (add_user_to_team, create_team, get_user_info, get_workout,
+                   list_all_teams, list_friends, list_live, list_posts,
+                   list_users, post_workout, update_workout)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -50,6 +50,13 @@ def friends(user_name):
     """lists all of user's friends"""
     friends = list_friends(user_name)
     return jsonify(values=friends)
+
+
+@app.route('/users/', methods=['GET'])
+def all_users():
+    """lists all of user's friends"""
+    users = list_users()
+    return jsonify(users)
 
 
 @app.route('/teams', methods=['GET', 'POST', 'PATCH'])
