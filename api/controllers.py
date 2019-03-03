@@ -4,9 +4,7 @@ from flask import jsonify, request
 from models import Buddies, Posted, Team, User, Workout
 from playhouse.shortcuts import model_to_dict
 from serve import app
-
-# from utils import list_posts
-
+from utils import list_posts
 
 print('here')
 
@@ -17,12 +15,8 @@ def list_feed(user_name):
     """content of post, content of workout in post"""
     """sort posts by date"""
     """list_posts() in utils"""
-    # feed = list_posts()
-    # posts = []
-    # for post in feed:
-    #     posts.append(model_to_dict(post))
-    # return jsonify(values=posts)
-    return "The feeeeed"
+    feed = list_posts(user_name)
+    return jsonify(values=feed)
 
 
 # def live_workouts(user_id):

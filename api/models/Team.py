@@ -4,4 +4,4 @@ from playhouse.postgres_ext import CharField
 
 
 class Team(BaseModel):
-    name = CharField(null=False, unique=True)
+    name = CharField(null=False, unique=True, primary_key=True)
