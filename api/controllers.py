@@ -58,6 +58,13 @@ def friends(user_name):
     return jsonify(friends)
 
 
+@app.route('/profile/<user_name>/friends', methods=['POST'])
+def friends(user_name):
+    """lists all of user's friends"""
+    friends = add_friend(user_name, request.get_json())
+    return jsonify(friends)
+
+
 @app.route('/users/', methods=['GET'])
 def all_users():
     """lists all of user's friends"""

@@ -72,6 +72,7 @@ class MakePost extends Component<any, any> {
     const { creator, id } = this.state.workout;
     window.alert(id);
     window.alert(url + content + creator);
+    const data = {photo: url, workout: id, caption: content}
 
     fetch(URL + "/workouts/" + id, {
       method: "PATCH"
