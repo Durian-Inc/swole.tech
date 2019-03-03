@@ -45,6 +45,12 @@ def user_info(user_name):
     return jsonify(user_info)
 
 
+@app.route('/profile/<username>/lives', methods=['GET'])
+def user_lives(username):
+    lives = list_live(username)
+    return jsonify(lives)
+
+
 @app.route('/profile/<user_name>/friends', methods=['GET'])
 def friends(user_name):
     """lists all of user's friends"""

@@ -17,6 +17,7 @@ def post_workout(workout_values):
             creator=workout_values['creator'],
             category=workout_values['category'],
             exercises=workout_values['exercises'])
+        LiveWorkouts.create(user=workout_values['creator'], workout=workout)
         return model_to_dict(workout)
     except Exception as e:
         print("ERROR", str(e))
