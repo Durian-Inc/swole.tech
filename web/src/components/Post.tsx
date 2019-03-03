@@ -8,6 +8,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 const WorkoutImage = styled.img`
   width: 50px;
@@ -24,7 +25,8 @@ interface IProps {
   workoutDescription: string,
   workoutIcon: any,
   workoutName: string,
-  workoutTime: string
+  workoutTime: string,
+  workoutLink: string
 }
 
 class Post extends Component<IProps, {}> {
@@ -86,14 +88,14 @@ class Post extends Component<IProps, {}> {
           }}
         >
           <WorkoutImage src={this.props.workoutIcon} />
-          <a href='google.com' style={{textDecoration: 'none'}}>
+          <Link to={this.props.workoutLink} style={{textDecoration: 'none'}}>
             <Typography style={{fontWeight: 'bold'}} component="p">
               {this.props.workoutName}
             </Typography>
             <Typography component="p">
               Completion Time - {this.props.workoutTime}
             </Typography>
-          </a>
+          </Link>
         </CardContent>
       </Card>
     );

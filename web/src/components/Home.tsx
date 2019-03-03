@@ -28,9 +28,11 @@ class Home extends Component<any, any> {
     return (
       <Navigation>
         { data ? (
-        <Stories style={{overflow: 'hidden'}} stories={data.live} />
+          <div>
+            <Stories style={{overflow: 'hidden'}} stories={data.live} />
+            <Feed posts={data.feed} />
+          </div>
         ) : null}
-        <Feed />
       </Navigation>
     );
   }

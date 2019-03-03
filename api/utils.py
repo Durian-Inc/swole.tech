@@ -1,7 +1,6 @@
 """All of the util functions"""
-from playhouse.shortcuts import model_to_dict
-
 from models import Buddies, LiveWorkouts, Posted, Workout
+from playhouse.shortcuts import model_to_dict
 
 
 def get_workout(workout_id):
@@ -23,7 +22,9 @@ def post_workout(workout_values):
 def update_workout(id, values):
     try:
         for key in values.keys():
-            workout = Workout.update({key: values[key]}).where(Workout.id == id)
+            workout = Workout.update({
+                key: values[key]
+            }).where(Workout.id == id)
             workout.execute()
         return Workout.get(Workout.id == id)
     except Exception as e:
@@ -38,10 +39,10 @@ def list_posts(username):
     ]
     buddies.append(username)
     for buddy in buddies:
-        posts += [
-            model_to_dict(post.post)
-            for post in Posted.select().where(Posted.user == buddy)
-        ]
+        for post in Posted.select().where(Posted.user == buddy):
+            post = model_to_dict(post.post)
+            post["name"] = buddy
+            posts.append(post)
     return posts
 
 
