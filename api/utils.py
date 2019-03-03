@@ -4,6 +4,7 @@ from playhouse.shortcuts import model_to_dict
 from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
                     Workout)
 
+from datetime import datetime
 
 def get_workout(workout_id):
     return Workout.get(Workout.id == workout_id)
@@ -23,14 +24,11 @@ def post_workout(workout_values):
         return e
 
 
-def update_workout(id, values):
+def update_workout(id):
     try:
-        for key in values.keys():
-            workout = Workout.update({
-                key: values[key]
-            }).where(Workout.id == id)
-            workout.execute()
-        return model_to_dict(Workout.get(Workout.id == id))
+        workout = Workout.update({'end_time': datetime.now()}).where(Workout.id == id)
+        workout.execute()
+        return Workout.get(Workout.id == id)
     except Exception as e:
         print("HUGE", str(e))
         return str(e)
