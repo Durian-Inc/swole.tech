@@ -48,6 +48,10 @@ const Header = styled.div`
 
 class Navigation extends Component<any, any> {
   render() {
+    if (!document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1")) {
+      return <Redirect push to="/login" />;
+    }
+
     const name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
     return (
