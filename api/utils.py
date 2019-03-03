@@ -1,7 +1,8 @@
 """All of the util functions"""
 from playhouse.shortcuts import model_to_dict
 
-from models import Buddies, LiveWorkouts, Posted, Workout, User, Team, TeamMembers
+from models import (Buddies, LiveWorkouts, Posted, Workout,
+                    User, Team, TeamMembers)
 
 
 def get_workout(workout_id):
@@ -63,6 +64,7 @@ def list_live(username):
         ]
     return lives
 
+
 def get_user_info(user_name):
     return User.get(User.name == user_name)
 
@@ -74,6 +76,7 @@ def list_friends(username):
     ]
     return buddies
 
+
 def list_all_teams():
     all_teams = Team.select().execute()
     teams = {}
@@ -84,17 +87,19 @@ def list_all_teams():
         ]
     return teams
 
+
 def create_team(team_values):
     try:
         Team.create(name=team_values['name'])
-        return {"team_name" : team_values['name']}
+        return {"name": team_values['name']}
     except Exception as e:
         return e
 
 
 def add_user_to_team(request_values):
     try:
-        TeamMembers.create(member=request_values['member'], team=request_values['team'])
+        TeamMembers.create(member=request_values['member'],
+                           team=request_values['team'])
         return {request_values['team']: request_values['member']}
     except Exception as e:
         return e

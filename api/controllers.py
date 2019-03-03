@@ -1,10 +1,7 @@
 """Includes all routes used in application"""
-from datetime import datetime
-
 from flask import jsonify, request
 from playhouse.shortcuts import model_to_dict
 
-from models import Buddies, Posted, Team, User, Workout
 from serve import app
 from utils import (get_workout, list_live, list_posts, post_workout,
                    update_workout, list_friends, get_user_info, list_all_teams,
@@ -22,9 +19,7 @@ def list_feed(username):
 
 @app.route('/workout', methods=['POST'])
 def workout():
-    submission = False
-    if request.method == 'POST':
-        submission = post_workout(request.form)
+    submission = post_workout(request.form)
     return jsonify(submission=submission)
 
 
@@ -41,7 +36,10 @@ def workout_info(workout_id):
 
 @app.route('/profile/<user_name>', methods=['GET'])
 def user_info(user_name):
-    """user information and all posts"""
+    """
+        User's information
+        name & photo
+    """
     user_info = get_user_info(user_name)
     return jsonify(model_to_dict(user_info))
 
