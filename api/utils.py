@@ -108,14 +108,13 @@ def list_all_teams():
 def list_all_user_teams(member_name):
     user = User.select().where(User.name == member_name).execute()
     try:
-        teams_and_managers = {}
+        teams_and_managers = []
         teams = TeamMembers.select().where(
             TeamMembers.member == user[0].name).execute()
         for team in teams:
-            manager = TeamMembers.select().where(
-                (TeamMembers.is_manager) & (TeamMembers.team == team.team))
-            teams_and_managers[str(team.team)] = model_to_dict(
-                manager[0].member)
+            manager = TeamMembers.select().where((TeamMembers.is_manager) &
+                                                 (TeamMembers.team == team.team))
+            teams_and_managers.append(str(team.team))
         return teams_and_managers
     except IndexError:
         return {}

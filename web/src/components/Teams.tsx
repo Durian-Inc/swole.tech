@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import styled from 'styled-components';
 import Navigation from './Navigation';
 import TeamCreate from './TeamCreate';
+import TeamView from './TeamView';
 import { URL } from './index';
 import 'typeface-roboto';
 
@@ -31,6 +32,8 @@ class Teams extends Component<any, any> {
     value: 0,
     users: [],
     teams: [],
+    team: '',
+    teamView: false,
     name: document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
     isLoaded: false,
     error: null
@@ -77,13 +80,21 @@ class Teams extends Component<any, any> {
       );
   }
 
+  handleClick = (team: any) => (event: any) => {
+    this.setState({ team: team, teamView: true })
+  }
+
+  handleOtherWay = () => {
+    this.setState({ teamView: false })
+  }
+
   render() {
     const { value } = this.state;
 
     var teams = <div>
                   {this.state.teams ? (
-                    this.state.users.map((item: any, index: number) =>
-                      <Link to={'/profile/' + name + 'team'} style={{
+                    this.state.teams.map((item: any, index: number) =>
+                      <a onClick={this.handleClick(item)} style={{
                           margin: 'auto',
                           width: '100%',
                           height: '100%',
@@ -102,39 +113,43 @@ class Teams extends Component<any, any> {
                         >
                           <div style={{width: '100%', height: '100%'}}>
                             <TeamNames>
-                              <h1 style={{margin: 0}}>Team Name</h1>
-                              <p style={{margin: 0}}>Clay McGinnis - 11 Members</p>
+                              <h1 style={{margin: 0}}>{item}</h1>
                             </TeamNames>
-                            <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '20px', marginTop: '20px'}} />
+                            <ArrowForwardIosIcon style={{height: '100%', float: 'right', marginRight: '20px', marginTop: '10px'}} />
                           </div>
                         </Card>
-                      </Link>
+                      </a>
                     )
                   ) : null }
                 </div>
 
-    return (
-      <Navigation>
-        <Card style={{
-                textAlign: 'left',
-                margin: 'auto',
-                width: '100%',
-                minHeight: '100vh',
-                maxWidth: '500px',
-                borderRadius: 0
-              }}
-        >
-          <AppBar position="static" style={{background: '#64838e'}}>
-            <Tabs value={value} onChange={this.handleChange} indicatorColor='primary' variant='fullWidth'>
-              <Tab label="Your Teams" />
-              <Tab label="Create a Team" />
-            </Tabs>
-          </AppBar>
-          {value === 0 && teams}
-          {value === 1 && <div><TeamCreate users={this.state.users} /></div>}
-        </Card>
-      </Navigation>
-    );
+    if(!this.state.teamView)
+      return (
+        <Navigation>
+          <Card style={{
+                  textAlign: 'left',
+                  margin: 'auto',
+                  width: '100%',
+                  minHeight: '100vh',
+                  maxWidth: '500px',
+                  borderRadius: 0
+                }}
+          >
+            <AppBar position="static" style={{background: '#64838e'}}>
+              <Tabs value={value} onChange={this.handleChange} indicatorColor='primary' variant='fullWidth'>
+                <Tab label="Your Teams" />
+                <Tab label="Create a Team" />
+              </Tabs>
+            </AppBar>
+            {value === 0 && teams}
+            {value === 1 && <div><TeamCreate users={this.state.users} /></div>}
+          </Card>
+        </Navigation>
+      );
+    else
+      return (
+        <div><TeamView team={this.state.team} goBack={this.handleOtherWay} /></div>
+      );
   }
 }
 

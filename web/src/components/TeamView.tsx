@@ -18,6 +18,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Avatar from '@material-ui/core/Avatar';
 import styled from 'styled-components';
 import Navigation from './Navigation';
+import { URL } from './index';
 import 'typeface-roboto';
 
 const UpperDiv = styled.div`
@@ -27,23 +28,62 @@ const UpperDiv = styled.div`
   margin-top: -25px;
 `
 
-function generate(element: any) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
 class TeamView extends Component<any, any> {
   state = {
-    value: 'recent',
+    value: 'player',
+    people: [],
+    manager: '',
+    name: document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1")
   };
 
   handleChange = (event: any) => {
     this.setState({ value: event.target.value });
     console.log(this.state.value)
   };
+
+  handleCheckChange = (event: any) => {
+    var members = this.state.people
+    var person = this.props.users[event.target.value].name
+    var contains = false
+    for(var i=0; i<members.length; i++)
+      if(members[i] === person)
+        contains = true
+    if(contains === true)
+      members = members.filter(member => member !== person)
+    else
+      members = members.concat(person)
+    console.log(members)
+    this.setState({ members: members });
+  };
+
+  componentDidMount() {
+    var matching = this.state.people
+    fetch(URL + "/teams")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result)
+          result.forEach((item: any) => {
+            if(item.team.name === this.props.team) {
+              matching = matching.concat(item.member.name)
+              this.setState({ people: matching})
+              if(item.is_manager)
+                this.setState({ manager: item.member.name })
+            }
+          })
+
+          this.setState({
+            isLoaded: true,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+  }
 
   render() {
     const { value } = this.state;
@@ -139,6 +179,8 @@ class TeamView extends Component<any, any> {
     </div>
 
     var players = <div>
+                    {this.state.people ? (
+                    this.state.people.map((item: any, index: number) =>
       <Card style={{
             textAlign: 'left',
             width: '95%',
@@ -148,7 +190,7 @@ class TeamView extends Component<any, any> {
             marginBottom: '-35px'
           }}
         >
-          <h2 style={{margin: 0, padding: 0, paddingLeft: '5px'}}>David Gardiner</h2>
+          <h2 style={{margin: 0, padding: 0, paddingLeft: '5px'}}>{item}</h2>
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Workout 1 - 3/1/2019</Typography>
@@ -182,49 +224,7 @@ class TeamView extends Component<any, any> {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </Card>
-        <Card style={{
-            textAlign: 'left',
-            width: '95%',
-            height: '100%',
-            margin: 'auto',
-            marginTop: '50px',
-            marginBottom: '-35px'
-          }}
-        >
-          <h2 style={{margin: 0, padding: 0, paddingLeft: '5px'}}>I want to die</h2>
-          <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Workout 1 - 3/1/2019</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={{display: 'flex', flexDirection: 'column'}}>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Categories</span> - Lower Body, Soccer
-              </Typography>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
-              </Typography>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Workout 2 - 3/3/2019</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={{display: 'flex', flexDirection: 'column'}}>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Categories</span> - Lower Body, Soccer
-              </Typography>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
-              </Typography>
-              <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </Card>
+                    )) : null}
       </div>
 
     if(this.state.value === 'player')
@@ -244,12 +244,12 @@ class TeamView extends Component<any, any> {
               }}
         >
           <UpperDiv>
-            <Link to='/teams/user' style={{color: 'black'}}>
+            <a onClick={this.props.goBack} style={{color: 'black'}}>
               <ArrowBackIosIcon style={{float: 'left', paddingTop: '35px', paddingLeft: '30px', marginRight: '-50px'}}/>
-            </Link>
-            <h1 style={{paddingTop: '10px'}}>Durian, Inc.</h1>
+            </a>
+            <h1 style={{paddingTop: '10px'}}>{this.props.team}</h1>
             <div style={{marginTop: '-25px'}}>
-              <p style={{fontSize: '20px'}}>Clay McGinnis</p>
+              <p style={{fontSize: '20px'}}>{this.state.manager}</p>
             </div>
           </UpperDiv>
           <div style={{margin: 'auto', width: '100%'}}>
