@@ -59,13 +59,6 @@ class Profile extends Component<any, any> {
           user: result
         });
       })
-    fetch(URL + "/teams/" + name)
-      .then(res => res.json())
-      .then(result => {
-        this.setState({
-          teams: result
-        });
-      })
     fetch(URL + "/profile/" + name + "/lives")
       .then(res => res.json())
       .then(result => {
@@ -127,7 +120,7 @@ class Profile extends Component<any, any> {
               </div>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Teams</p>
-                <p style={{marginTop: '-20px'}}>{teams.length}</p>
+                <p style={{marginTop: '-20px'}}>2</p>
               </div>
             </div>
           </UpperDiv>
