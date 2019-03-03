@@ -91,14 +91,20 @@ def list_friends(username):
 
 
 def list_all_teams():
-    all_teams = Team.select().execute()
-    teams = {}
-    for team in all_teams:
-        teams[team.name] = [
-            str(member.member)
-            for member in TeamMembers.select().where(TeamMembers.team == team)
-        ]
-    return teams
+    return [model_to_dict(team) for team in TeamMembers.select().execute()]
+
+
+def list_all_user_teams(member_name):
+    user = User.select().where(User.name == member_name).execute()
+    try:
+        teams_and_managers = {}
+        teams = TeamMembers.select().where(TeamMembers.member == user[0].name).execute()
+        for team in teams:
+            manager = TeamMembers.select().where(TeamMembers.is_manager)
+            teams_and_managers[str(team.team)] = model_to_dict(manager[0].member)
+        return teams_and_managers
+    except IndexError:
+        return {}
 
 
 def create_team(team_values):

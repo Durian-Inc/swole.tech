@@ -6,7 +6,7 @@ from models import Buddies, Posted, Team, User, Workout
 from serve import app
 from utils import (add_user_to_team, create_team, get_user_info, get_workout,
                    list_all_teams, list_friends, list_live, list_posts,
-                   list_users, post_workout, update_workout)
+                   list_users, post_workout, update_workout, list_all_user_teams)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -72,13 +72,20 @@ def all_users():
     return jsonify(users)
 
 
-@app.route('/teams', methods=['GET', 'POST', 'PATCH'])
-def teams():
+@app.route('/teams/<member>', methods=['GET', 'POST', 'PATCH'])
+def teams(member):
     teams = []
     if request.method == 'GET':
-        teams = list_all_teams()
+        teams = list_all_user_teams(member)
     elif request.method == 'POST':
         teams = create_team(request.form)
     elif request.method == 'PATCH':
         teams = add_user_to_team(request.form)
+    return jsonify(teams)
+
+
+@app.route('/teams/', methods=['GET'])
+def all_teams():
+    teams = []
+    teams = list_all_teams()
     return jsonify(teams)
