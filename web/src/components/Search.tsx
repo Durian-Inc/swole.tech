@@ -21,7 +21,18 @@ class Search extends Component {
   addFriend = (them: string) => {
     var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     console.log("post", name, them)
-    console.log("post", them, name)
+
+    const data = {friend: them}
+    fetch(URL + "/profile/" + name + "/friends", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then((result) => console.log(result))
   }
 
   componentDidMount() {

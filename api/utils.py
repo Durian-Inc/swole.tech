@@ -1,10 +1,9 @@
 """All of the util functions"""
 from datetime import datetime
 
+from models import (Buddies, LiveWorkouts, Post, Posted, Team, TeamMembers,
+                    User, Workout)
 from playhouse.shortcuts import model_to_dict
-
-from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
-                    Workout, Post)
 
 
 def get_workout(workout_id):
@@ -111,7 +110,8 @@ def list_all_user_teams(member_name):
         teams = TeamMembers.select().where(
             TeamMembers.member == user[0].name).execute()
         for team in teams:
-            manager = TeamMembers.select().where(TeamMembers.is_manager)
+            manager = TeamMembers.select().where(TeamMembers.is_manager,
+                                                 TeamMembers.team == team)
             teams_and_managers[str(team.team)] = model_to_dict(
                 manager[0].member)
         return teams_and_managers
