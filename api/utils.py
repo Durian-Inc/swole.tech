@@ -2,7 +2,7 @@
 from playhouse.shortcuts import model_to_dict
 
 from models import (Buddies, LiveWorkouts, Posted, Team, TeamMembers, User,
-                    Workout)
+                    Workout, Post)
 
 from datetime import datetime
 
@@ -126,3 +126,11 @@ def add_user_to_team(request_values):
 
 def list_users():
     return [model_to_dict(user) for user in User.select()]
+
+
+def post_post(post_to_post):
+    new_post = Post.create()
+    for key in post_to_post:
+        value = post_to_post[key]
+        new_post.update({str(key): value}).execute()
+    return model_to_dict(new_post)
