@@ -9,13 +9,14 @@ def get_workout(workout_id):
 
 def post_workout(workout_values):
     try:
-        Workout.create(
+        workout = Workout.create(
             name=workout_values['name'],
             creator=workout_values['creator'],
             category=workout_values['category'],
             exercises=workout_values['exercises'])
-        return True
+        return workout
     except Exception as e:
+        print("ERROR", str(e))
         return e
 
 
@@ -26,9 +27,10 @@ def update_workout(id, values):
                 key: values[key]
             }).where(Workout.id == id)
             workout.execute()
-        return Workout.get(Workout.id == id)
+        return model_to_dict(Workout.get(Workout.id == id))
     except Exception as e:
-        return e
+        print("HUGE", str(e))
+        return str(e)
 
 
 def list_posts(username):

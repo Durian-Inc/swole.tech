@@ -2,9 +2,9 @@
 from datetime import datetime
 
 from flask import jsonify, request
-from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
+from playhouse.shortcuts import model_to_dict
 from serve import app
 from utils import (get_workout, list_live, list_posts, post_workout,
                    update_workout)
@@ -19,22 +19,20 @@ def list_feed(username):
     return jsonify(feed=sort_feed, live=lives)
 
 
-@app.route('/workout', methods=['POST'])
+@app.route('/workouts', methods=['POST'])
 def workout():
-    submission = False
-    if request.method == 'POST':
-        submission = post_workout(request.form)
+    submission = post_workout(request.get_json())
     return jsonify(submission=submission)
 
 
-@app.route('/workout/<workout_id>', methods=['GET', 'PATCH'])
+@app.route('/workouts/<workout_id>', methods=['GET', 'PATCH'])
 def workout_info(workout_id):
     """Info on workout after selecting from feed"""
     workout = None
     if request.method == 'GET':
         workout = get_workout(workout_id)
     elif request.method == 'PATCH':
-        workout = update_workout(workout_id, request.form)
+        workout = update_workout(workout_id, request.get_json())
     return jsonify(model_to_dict(workout))
 
 
