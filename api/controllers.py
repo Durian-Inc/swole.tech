@@ -1,42 +1,44 @@
 """Includes all routes used in application"""
+from datetime import datetime
+
 from flask import jsonify, request
+from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
-from playhouse.shortcuts import model_to_dict
 from serve import app
-from utils import list_posts
+from utils import (get_workout, list_live, list_posts, post_workout,
+                   update_workout)
 
-print('here')
 
-
-@app.route('/<user_name>', methods=['GET', 'POST'])
-def list_feed(user_name):
+@app.route('/users/<username>', methods=['GET', 'POST'])
+def list_feed(username):
     """lists workout feed of posts"""
-    """content of post, content of workout in post"""
-    """sort posts by date"""
-    """list_posts() in utils"""
-    feed = list_posts(user_name)
-    return jsonify(values=feed)
+    lives = list_live(username)
+    feed = list_posts(username)
+    sort_feed = sorted(feed, key=lambda k: k['date'])
+    return jsonify(feed=sort_feed, live=lives)
 
 
-# def live_workouts(user_id):
-#     """friends live workouts, sorted by most recent start date"""
-
-
-@app.route('/workout', methods=['POST', 'PATCH'])
+@app.route('/workout', methods=['POST'])
 def workout():
+    submission = False
     if request.method == 'POST':
-        # ToDo: Post workout function passed request dict
-        #   post_workout(request_dict)
-        pass
+        submission = post_workout(request.form)
+    return jsonify(submission=submission)
+
+
+@app.route('/workout/<workout_id>', methods=['GET', 'PATCH'])
+def workout_info(workout_id):
+    """Info on workout after selecting from feed"""
+    workout = None
+    if request.method == 'GET':
+        workout = get_workout(workout_id)
     elif request.method == 'PATCH':
-        # ToDo: Send workout id to DB to upadte values from request
-        #    create_workout(id, values):
-        pass
-    return "Some workout"
+        workout = update_workout(workout_id, request.form)
+    return jsonify(model_to_dict(workout))
 
 
-@app.route('/<user_name>', methods=['GET'])
+@app.route('/profile/<user_name>', methods=['GET'])
 def user_info(user_name):
     """user information and all posts"""
     # ToDo: List all user informatinon
@@ -69,11 +71,3 @@ def teams():
         #   add_user_to_team(team_name, user_name)
         pass
     return "Teams are here"
-
-
-@app.route('/workout/<workout_id>', methods=['GET'])
-def workout_info(workout_id):
-    """info on workout after selecting from feed"""
-    # ToDo: Return info on the workout here
-    #   get_workout(workout_id)
-    return "Workout info go here"

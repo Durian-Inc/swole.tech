@@ -1,6 +1,6 @@
 """All of the buddies"""
 from models import BaseModel, User
-from playhouse.postgres_ext import ForeignKeyField
+from playhouse.postgres_ext import CompositeKey, ForeignKeyField
 
 
 class Buddies(BaseModel):
@@ -8,4 +8,4 @@ class Buddies(BaseModel):
     my_friend = ForeignKeyField(User)
 
     class Meta:
-        index = ((('myself', 'my_friend'), True))
+        primary_key = CompositeKey('myself', 'my_friend')
