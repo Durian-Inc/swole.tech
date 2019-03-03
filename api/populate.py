@@ -1,60 +1,61 @@
-from models import (User, Buddies, Post, LiveWorkouts, Posted,
-                    Team, TeamMembers, Workout)
 from datetime import datetime
+
+from models import (Buddies, LiveWorkouts, Post, Posted, Team, TeamMembers,
+                    User, Workout)
 
 
 def populate_db():
-    comments = [
-        {
-            'name': 'Innocent Niyibizi',
-            'text': 'This is some really cool rips brooo'
-        },
-        {
-            'name': 'Katie Pitz',
-            'text': 'You need more pump, bro'
-        }
-    ]
-    exercises = [
-        {
-            'name': 'Squat',
-            'weight': 130,
-            'reps': 10
-        },
-        {
-            'name': 'Bench Press',
-            'weight': 130,
-            'reps': 10
-        },
-        {
-            'name': 'Run',
-            'distance': 1
-        }
-    ]
+    comments = [{
+        'name': 'Innocent Niyibizi',
+        'text': 'This is some really cool rips brooo'
+    }, {
+        'name': 'Katie Pitz',
+        'text': 'You need more pump, bro'
+    }]
+    exercises = [{
+        'name': 'Squat',
+        'weight': 130,
+        'reps': 10
+    }, {
+        'name': 'Bench Press',
+        'weight': 130,
+        'reps': 10
+    }, {
+        'name': 'Run',
+        'distance': 1
+    }]
     try:
         # Creating a few users
-        first_user = User.create(name='Bob', photo='https://bit.ly/2ILwmyk')
-        second_user = User.create(name='Kim', photo='https://bit.ly/2C1e0DA')
-        third_user = User.create(name='Kimmy', photo='https://bit.ly/2C1e0DA')
-        fourth_user = User.create(name='Tom', photo='https://bit.ly/2C1e0DA')
+        first_user = User.create(name='bob', photo='https://bit.ly/2ILwmyk')
+        second_user = User.create(name='kim', photo='https://bit.ly/2C1e0DA')
+        third_user = User.create(name='kimmy', photo='https://bit.ly/2C1e0DA')
+        fourth_user = User.create(name='tom', photo='https://bit.ly/2C1e0DA')
 
         # Creating a few friendships
         Buddies.create(myself=first_user, my_friend=second_user)
         Buddies.create(myself=third_user, my_friend=fourth_user)
 
         # Creating workouts and one live workout!
-        first_workkout = Workout.create(name='Swole!', end_time=datetime.now(),
-                                        creator=first_user.name, category='Arm',
-                                        exercises=exercises)
+        first_workkout = Workout.create(
+            name='Swole!',
+            end_time=datetime.now(),
+            creator=first_user.name,
+            category='Arm',
+            exercises=exercises)
         LiveWorkouts.create(user=first_user, workout=first_workkout)
-        next_workkout = Workout.create(name='Swole!!', end_time=datetime.now(),
-                                       creator=second_user.name, category='Arm',
-                                       end_date=datetime.now(),
-                                       exercises=exercises)
+        next_workkout = Workout.create(
+            name='Swole!!',
+            end_time=datetime.now(),
+            creator=second_user.name,
+            category='Arm',
+            end_date=datetime.now(),
+            exercises=exercises)
         # Creating a single post
-        post = Post.create(photo='https://bit.ly/2INxktU',
-                           caption='I am way toooo Swole!!',
-                           original_workout=next_workkout,
-                           comments=comments)
+        post = Post.create(
+            photo='https://bit.ly/2INxktU',
+            caption='I am way toooo Swole!!',
+            original_workout=next_workkout,
+            comments=comments)
         Posted.create(user=second_user, post=post)
 
         # Creating a team!!
