@@ -149,7 +149,7 @@ class Workout extends Component<any, any> {
   update = (item: any, event: any) => {
     const { items } = this.state;
     var index = items.indexOf(item);
-    items[index].count = event.target.value;
+    items[index].meta = event.target.value;
 
     this.setState({
       items: items

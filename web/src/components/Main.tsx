@@ -18,7 +18,7 @@ class Main extends Component {
           <Route exact path="/teams/:name" component={Teams} />
           <Route exact path="/workout" component={Workout} />
           <Route exact path="/workout/:id" component={Workout} />
-          <Route exact path="/:name/:teamname" component={TeamView} />
+          <Route exact path="/profile/:name/:teamname" component={TeamView} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/profile/:name" component={Profile} />

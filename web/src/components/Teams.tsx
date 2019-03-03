@@ -35,9 +35,11 @@ class Teams extends Component<any, any> {
 
   render() {
     const { value } = this.state;
+    var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+ 
 
     var teams = <div>
-                  <Link to={'/user/team'} style={{
+                  <Link to={'/profile/' + name + '/team'} style={{
                       margin: 'auto',
                       width: '100%',
                       height: '100%',

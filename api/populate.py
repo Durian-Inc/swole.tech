@@ -14,13 +14,13 @@ def populate_db():
     }]
     exercises = [{
         'name': 'Squat',
-        'count': 10
+        'meta': 10
     }, {
         'name': 'Bench Press',
-        'count': 10
+        'meta': 10
     }, {
         'name': 'Run',
-        'count': 1
+        'meta': 1
     }]
     try:
         # Creating a few users
