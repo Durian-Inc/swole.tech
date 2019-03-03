@@ -72,7 +72,7 @@ class MakePost extends Component<any, any> {
     const { creator, id } = this.state.workout;
     window.alert(id);
     window.alert(url + content + creator);
-    const data = {photo: url, workout: id, caption: content}
+    const data = {photo: url, original_workout: id, caption: content}
 
     fetch(URL + "/workouts/" + id, {
       method: "PATCH"
@@ -80,7 +80,7 @@ class MakePost extends Component<any, any> {
     .then(res => console.log(res))
     .catch(res => console.log(res))
 
-    fetch(URL + "/posts/", {
+    fetch(URL + "/post/" + creator, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

@@ -1,9 +1,10 @@
 """All of the util functions"""
 from datetime import datetime
 
+from playhouse.shortcuts import model_to_dict
+
 from models import (Buddies, LiveWorkouts, Post, Posted, Team, TeamMembers,
                     User, Workout)
-from playhouse.shortcuts import model_to_dict
 
 
 def get_workout(workout_id):
@@ -140,9 +141,10 @@ def list_users():
     return [model_to_dict(user) for user in User.select()]
 
 
-def post_post(post_to_post):
-    new_post = Post.create()
-    for key in post_to_post:
-        value = post_to_post[key]
-        new_post.update({str(key): value}).execute()
+def post_post(username, po):
+    new_post = Post.create(
+        photo=po["photo"],
+        caption=po["caption"],
+        original_workout=po["original_workout"])
+    Posted.create(user=username, post=new_post)
     return model_to_dict(new_post)

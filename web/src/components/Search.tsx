@@ -33,6 +33,15 @@ class Search extends Component {
     })
       .then(res => res.json())
       .then((result) => console.log(result))
+
+    //item.name remove
+    /*const { items } = this.state;
+    var index = items.indexOf(item);
+    items.splice(index, 1);
+    this.setState({
+      items: items
+    });*/
+
   }
 
   componentDidMount() {

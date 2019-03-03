@@ -45,7 +45,9 @@ class Profile extends Component<any, any> {
       name: "",
       buddies: [],
       posts: []
-    }
+    },
+    workouts: [],
+    teams: []
   };
 
   componentWillMount() {
@@ -57,6 +59,20 @@ class Profile extends Component<any, any> {
           user: result
         });
       })
+    fetch(URL + "/teams/" + name)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          teams: result
+        });
+      })
+    fetch(URL + "/profile/" + name + "/lives")
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          workouts: result
+        });
+      })
   }
 
   handleChange = (event: any, value: any) => {
@@ -64,14 +80,14 @@ class Profile extends Component<any, any> {
   };
 
   render() {
-    const { value, user } = this.state;
-    console.log(user)
+    const { value, user, workouts, teams } = this.state;
+    console.log("NUMTEAM", teams.length)
     var friendsList = <List>
                         { user.buddies.map((item: any, index: number) => 
                             <ListItem key={index}>
                               <ListItemAvatar>
                                 <Avatar style={{background: '#64838e'}}>
-                                  D
+                                {item.name.substring(0,1).toUpperCase()}
                                 </Avatar>
                               </ListItemAvatar>
                               <ListItemText
@@ -103,7 +119,7 @@ class Profile extends Component<any, any> {
             <div style={{marginTop: '-35px'}}>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Workouts</p>
-                <p style={{marginTop: '-20px'}}>4</p>
+                <p style={{marginTop: '-20px'}}>{workouts.length}</p>
               </div>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Friends</p>
@@ -111,7 +127,7 @@ class Profile extends Component<any, any> {
               </div>
               <div style={{width: '33%', float: 'left'}}>
                 <p style={{fontSize: '20px'}}>Teams</p>
-                <p style={{marginTop: '-20px'}}>2</p>
+                <p style={{marginTop: '-20px'}}>{teams.length}</p>
               </div>
             </div>
           </UpperDiv>

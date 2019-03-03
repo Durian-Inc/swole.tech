@@ -4,11 +4,10 @@ from playhouse.shortcuts import model_to_dict
 
 from models import Buddies, Posted, Team, User, Workout
 from serve import app
-
-from utils import (add_friend, add_user_to_team, create_team, get_user_info, get_workout,
-                   list_all_teams, list_friends, list_live, list_posts,
-                   list_users, post_workout, update_workout, list_all_user_teams,
-                   post_post)
+from utils import (add_friend, add_user_to_team, create_team, get_user_info,
+                   get_workout, list_all_teams, list_all_user_teams,
+                   list_friends, list_live, list_posts, list_users, post_post,
+                   post_workout, update_workout)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -93,7 +92,7 @@ def all_teams():
     return jsonify(teams)
 
 
-@app.route('/post/', methods=['POST'])
-def post():
-    post = post_post(request.get_json())
+@app.route('/post/<username>', methods=['POST'])
+def post(username):
+    post = post_post(username, request.get_json())
     return jsonify(post)
