@@ -1,19 +1,18 @@
 """Includes all routes used in application"""
 from flask import jsonify, request
 
-from models import User, Team, Workout, Posted, Buddies
+from models import Buddies, Posted, Team, User, Workout
 from playhouse.shortcuts import model_to_dict
-from utils import list_posts
-
-
 from serve import app
+
+# from utils import list_posts
+
 
 print('here')
 
 
 @app.route('/<user_name>', methods=['GET', 'POST'])
 def list_feed(user_name):
-
     """lists workout feed of posts"""
     """content of post, content of workout in post"""
     """sort posts by date"""
@@ -24,6 +23,7 @@ def list_feed(user_name):
     #     posts.append(model_to_dict(post))
     # return jsonify(values=posts)
     return "The feeeeed"
+
 
 # def live_workouts(user_id):
 #     """friends live workouts, sorted by most recent start date"""
@@ -36,7 +36,7 @@ def workout():
         #   post_workout(request_dict)
         pass
     elif request.method == 'PATCH':
-        # ToDo: Send workout id to DB to upadte values from request 
+        # ToDo: Send workout id to DB to upadte values from request
         #    create_workout(id, values):
         pass
     return "Some workout"
