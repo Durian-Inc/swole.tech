@@ -112,7 +112,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -128,7 +128,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -155,7 +155,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -171,7 +171,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -203,7 +203,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -219,7 +219,7 @@ class TeamView extends Component<any, any> {
                 <span style={{fontWeight: 'bold'}}>Completion Time</span> - 37:49
               </Typography>
               <Typography>
-                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges, Taking Shits
+                <span style={{fontWeight: 'bold'}}>Exercises</span> - Squats, Lunges
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -240,6 +240,7 @@ class TeamView extends Component<any, any> {
                 width: '100%',
                 minHeight: '100vh',
                 maxWidth: '500px',
+                paddingBottom: '65px',
                 borderRadius: 0
               }}
         >
