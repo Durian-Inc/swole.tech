@@ -22,23 +22,22 @@ def list_feed(user_name):
 #     """friends live workouts, sorted by most recent start date"""
 
 
-@app.route('/workout', methods=['POST', 'PATCH'])
+@app.route('/workout', methods=['POST'])
 def workout():
+    submission = False
     if request.method == 'POST':
-        # ToDo: Post workout function passed request dict
-        values = [request.form[key] for key in request.form.keys()]
-        post_workout(values)
-    elif request.method == 'PATCH':
-        # ToDo: Send workout id to DB to upadte values from request
-        values = [request.form[key] for key in request.form.keys()]
-        update_workout(id, values)
-    return None
+        submission = post_workout(request.form)
+    return jsonify(submission=submission)
 
 
-@app.route('/workout/<workout_id>', methods=['GET'])
+@app.route('/workout/<workout_id>', methods=['GET', 'PATCH'])
 def workout_info(workout_id):
     """Info on workout after selecting from feed"""
-    workout = get_workout(workout_id)
+    workout = None
+    if request.method == 'GET':
+        workout = get_workout(workout_id)
+    elif request.method == 'PATCH':
+        workout = update_workout(workout_id, request.form)
     return jsonify(model_to_dict(workout))
 
 

@@ -12,8 +12,9 @@ def post_workout(workout_values):
     try:
         Workout.create(name=workout_values['name'], 
                        creator=workout_values['creator'],
+                       category=workout_values['category'],
                        exercises=workout_values['exercises'])
-        return None
+        return True
     except Exception as e:
         return e
 
@@ -21,7 +22,9 @@ def post_workout(workout_values):
 def update_workout(id, values):
     try:
         for key in values.keys():
-            Workout.update(key=values[key]).where(Workout.id == id)
+            workout = Workout.update({key: values[key]}).where(Workout.id == id)
+            workout.execute()
+        return Workout.get(Workout.id == id)
     except Exception as e:
         return e
 
