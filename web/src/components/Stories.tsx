@@ -36,6 +36,7 @@ height: 80px;
 width: 99%;
 margin: auto;
 overflow: auto;
+overflow-y: hidden;
 box-sizing: content-box;
 `
 
