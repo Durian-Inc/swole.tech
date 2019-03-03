@@ -16,7 +16,7 @@ def list_feed(user_name):
     """sort posts by date"""
     """list_posts() in utils"""
     feed = list_posts(user_name)
-    return jsonify(values=feed)
+    return jsonify(feed)
 
 
 # def live_workouts(user_id):
