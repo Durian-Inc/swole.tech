@@ -7,7 +7,7 @@ from playhouse.shortcuts import model_to_dict
 from models import Buddies, Posted, Team, User, Workout
 from serve import app
 from utils import (get_workout, list_live, list_posts, post_workout,
-                   update_workout)
+                   update_workout, list_friends, get_user_info)
 
 
 @app.route('/users/<username>', methods=['GET', 'POST'])
@@ -41,19 +41,15 @@ def workout_info(workout_id):
 @app.route('/profile/<user_name>', methods=['GET'])
 def user_info(user_name):
     """user information and all posts"""
-    # ToDo: List all user informatinon
-    #   get_user_info(user_name)
-    pass
-    return "Their info"
+    user_info = get_user_info(user_name)
+    return jsonify(model_to_dict(user_info))
 
 
 @app.route('/<user_name>/friends', methods=['GET'])
-def list_friends(user_name):
+def friends(user_name):
     """lists all of user's friends"""
-    # ToDo: List all of the friends for the user
-    #   list_all_friends(user_name)
-    pass
-    return "Friends go here"
+    friends = list_friends(user_name)
+    return jsonify(values=friends)
 
 
 @app.route('/teams', methods=['GET', 'POST', 'PATCH'])

@@ -1,7 +1,7 @@
 """All of the util functions"""
 from playhouse.shortcuts import model_to_dict
 
-from models import Buddies, LiveWorkouts, Posted, Workout
+from models import Buddies, LiveWorkouts, Posted, Workout, User
 
 
 def get_workout(workout_id):
@@ -60,3 +60,14 @@ def list_live(username):
                 LiveWorkouts.user == buddy)
         ]
     return lives
+
+def get_user_info(user_name):
+    return User.get(User.name == user_name)
+
+
+def list_friends(username):
+    buddies = [
+        str(buddy.my_friend)
+        for buddy in Buddies.select().where(Buddies.myself == username)
+    ]
+    return buddies
