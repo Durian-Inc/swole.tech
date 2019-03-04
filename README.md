@@ -23,6 +23,7 @@ git clone https://github.com/Durian-Inc/SwoleTech/
 
 ### Additional installation instructions
 #### Server
+Before running the server you will need to copy the `api/.env_format` file to `api/.env` and add the relevant information about your PostgreSQL server, this includes IP of the instance, name of database, credentials, etc.
 ```bash
 # Install required pip packages to virtual environment
 pipenv install
