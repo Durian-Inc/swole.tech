@@ -1,7 +1,7 @@
 # SwoleTech - Centralized workout sharing platform
 > Created for PickHacks 2019 by Durian Inc.      
 Team: Clay McGinnis, David Gardiner, Innocent Niyibizi, Katie Pitz      
-> https://swole.tech/
+> http://swole.tech/
 ## Purpose
 This app will make creating and sharing a workout as easy as a click of a few buttons.
 
@@ -12,14 +12,38 @@ git clone https://github.com/Durian-Inc/SwoleTech/
 ```
 
 ### Install dependencies
-* Python 3.X
-* pip3 (python3-pip)
-* PostgreSQL
-* pipenv `pip install pipenv`
+* Server
+  * Python 3.X
+  * pip3
+  * PostgreSQL
+  * pipenv `pip3 install pipenv`
+* Client
+  * Node.js
+  * npm / yarn
 
 ### Additional installation instructions
-1. `pipenv install`
-2. `pipenv run python3 api/run.py`
+#### Server
+```bash
+# Install required pip packages to virtual environment
+pipenv install
+
+# Start the server in debug mode
+pipenv run python3 api/run.py
+```
+#### Client
+```bash
+# Install required npm packages to directory
+yarn install
+or
+npm install
+
+# Start the server in debug mode
+yarn start
+or
+npm run start
+
+Go to: http://localhost:3000
+```
 
 ## Troubleshooting
 Browse and create issues: https://github.com/Durian-Inc/SwoleTech/issues
